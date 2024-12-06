@@ -7,3 +7,8 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 using namespace rapidjson;
+
+#include "rapidxml_utils.hpp"
+#include "rapidxml.hpp"
+
+using namespace rapidxml;

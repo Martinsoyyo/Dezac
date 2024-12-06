@@ -1,3 +1,6 @@
 [submodule "Libs/RapidJSON"]
 	path = Libs/RapidJSON
 	url = https://github.com/Tencent/rapidjson/
+[submodule "Libs/RapidXML"]
+	path = Libs/RapidXML
+	url = https://github.com/timniederhausen/rapidxml
