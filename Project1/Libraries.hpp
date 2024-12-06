@@ -10,5 +10,7 @@ using namespace rapidjson;
 
 #include "rapidxml_utils.hpp"
 #include "rapidxml.hpp"
-
 using namespace rapidxml;
+
+#include <boost/sml.hpp>
+namespace sml = boost::sml;

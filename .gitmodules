@@ -4,3 +4,6 @@
 [submodule "Libs/RapidXML"]
 	path = Libs/RapidXML
 	url = https://github.com/timniederhausen/rapidxml
+[submodule "Libs/sml"]
+	path = Libs/sml
+	url = https://github.com/boost-ext/sml
