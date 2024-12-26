@@ -7,3 +7,6 @@
 [submodule "Libs/sml"]
 	path = Libs/sml
 	url = https://github.com/boost-ext/sml
+[submodule "Libs/LitleFS"]
+	path = Libs/LitleFS
+	url = https://github.com/littlefs-project/littlefs

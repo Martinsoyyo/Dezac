@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PreCompiledScript.cpp" />
+    <ClCompile Include="..\Libs\LitleFS\lfs_util.c" />
+    <ClCompile Include="..\Libs\LitleFS\lfs.c" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
@@ -12,5 +15,17 @@
     <ClInclude Include="Libraries.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="generated.hpp">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libs\LitleFS\lfs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libs\LitleFS\lfs_util.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.json" />
   </ItemGroup>
 </Project>

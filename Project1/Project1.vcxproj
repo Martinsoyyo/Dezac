@@ -76,7 +76,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\LitleFS;C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,7 +92,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\LitleFS;C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,7 +108,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\LitleFS;C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +124,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Libs\LitleFS;C:\Users\mmpel\source\repos\Dezac\Libs\sml\include;C:\Users\mmpel\source\repos\Dezac\Libs\RapidXML;C:\Users\mmpel\source\repos\Dezac\Libs\RapidJSON\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,10 +135,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Libs\LitleFS\lfs.c" />
+    <ClCompile Include="..\Libs\LitleFS\lfs_util.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PreCompiledScript.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Libs\LitleFS\lfs.h" />
+    <ClInclude Include="..\Libs\LitleFS\lfs_util.h" />
+    <ClInclude Include="generated.hpp" />
     <ClInclude Include="Libraries.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

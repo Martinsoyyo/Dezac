@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <string_view>
+#include <fstream>
+#include <sstream>
 
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
@@ -14,3 +16,6 @@ using namespace rapidxml;
 
 #include <boost/sml.hpp>
 namespace sml = boost::sml;
+
+#include "lfs.h"
+#include "lfs_util.h"
