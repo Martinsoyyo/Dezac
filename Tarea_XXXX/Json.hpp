@@ -9,12 +9,9 @@ public:
 	ViewPermission(std::string_view MEMBER = "") : members_(MEMBER) {}
 
 	bool HasMember(std::string_view str) const {
-		for (char c : str) {
-			if (members_.find(c) != std::string::npos) {
-				return true;
-			}
-		}
-		return false;
+		return std::any_of(str.begin(), str.end(), [this](char c) {
+			return members_.find(c) != std::string::npos;
+			});
 	}
 
 	void Add(std::string_view str) {
@@ -26,16 +23,12 @@ public:
 	}
 
 	void Remove(std::string_view str) {
-		for (char c : str) {
-			auto pos = members_.find(c);
-			if (pos != std::string::npos) {
-				members_.erase(pos, 1);
-			}
-		}
+		members_.erase(std::remove_if(members_.begin(), members_.end(),
+			[&str](char c) { return str.find(c) != std::string::npos; }),
+			members_.end());
 	}
 
-	const std::string Get() const { return members_; }
-
+	const std::string& Get() const { return members_; }
 
 private:
 	std::string members_;
@@ -47,16 +40,14 @@ class PostProcess;
 
 class Json {
 public:
-	void Import(
-		Document& jsonOriginal,
-		std::string_view viewer_priority,
-		std::string_view pathXMLfile);
+	Json(
+		const Document& jsonOriginal,
+		std::string_view viewer
+	);
 
-	void Export(
-		const Value& jsonOriginal,
-		std::string_view viewer_priority,
-		std::string_view AdressXMLfile,
-		std::string_view AdressXSDfile) const;
+	void Import(std::string_view pathXMLfile);
+
+	void Export(std::string_view AdressXMLfile, std::string_view AdressXSDfile) const;
 
 	// Show JSON tree in Pretty format. (to easy debug)
 	static void Show(const Value& json);
@@ -73,12 +64,6 @@ private:
 	// Checks XML file compatibility for shape and datatype, and create json_ for later. 
 	bool ProcessXML(std::string_view fileFromXML);
 
-	// Checks if the values has a correct type/subtype, formats, limits etc...
-	bool checkTypeBounds(const Value& original, std::string_view, std::string_view) const;
-
-	// Comprare JSON to check if is the same structure.
-	bool isValidJSON(const Value& source, const Value& original) const;
-
 	// Combine JSON with the new values from Import.
 	void Combine(Value& to, const Value& from, Document::AllocatorType& alloc) const;
 
@@ -86,9 +71,15 @@ private:
 	// STATICS MEMBERS 
 	//----------------------------------------------------------------------------
 
+	// Checks if the values has a correct type/subtype, formats, limits etc...
+	static bool checkTypeBounds(const Value& original, std::string_view, std::string_view);
+
+	// Comprare JSON to check if is the same structure.
+	static bool isValidJSON(const Value& source, const Value& original);
+
 	// "Type::SubType" is in datatype structure ?
 	static bool IsValidTypeAndSubtype(std::string_view type);
-		
+
 	// Unknow Variable -->  { Enum or ReadOnly or Number or NotaVariable }
 	static VariableType DetermineVariableType(const Value& node);
 
@@ -108,6 +99,9 @@ private:
 		ViewPermission parent);
 
 private:
+	const Document& json_original_;
+
 	Document json_;
+	std::string viewer_priority_;
 };
 

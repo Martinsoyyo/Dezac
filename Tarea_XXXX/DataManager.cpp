@@ -25,7 +25,7 @@ DataManager::DataManager(std::string_view filename)
 	if (doc.HasMember("DataManager") && doc["DataManager"].IsObject()) {
 		Read_Config_And_Parse_Files(doc["DataManager"]);
 	}
-	
+
 }
 
 Document DataManager::Create_JSON_From_String(std::string_view str)
@@ -130,7 +130,7 @@ float DataManager::GetValue(std::string_view filename, std::initializer_list<std
 	auto [type, subtype] = Json::GetTypeAndSubtype(subJSON["Type"].GetString());
 
 	auto scale = (subtype == "") ?
-		GetJSON("Datatypes.json", { type, "Scale" }).GetFloat():
+		GetJSON("Datatypes.json", { type, "Scale" }).GetFloat() :
 		GetJSON("Datatypes.json", { type, subtype, "Scale" }).GetFloat();
 
 	return num * scale;
@@ -142,18 +142,19 @@ void DataManager::Export(std::string_view filename, std::string_view privilege) 
 	std::string fileToXML = GetString("Config.json", { "DataManager",filename ,"Path", "AdressToXML" }) + file + ".xml";
 	std::string fileToXSD = GetString("Config.json", { "DataManager",filename ,"Path", "AdressToXSD" }) + file + ".xsd";
 
-	Json obj;
-	obj.Export(GetJSON(filename), privilege, fileToXML, fileToXSD);
+	Document& doc = const_cast<Document&>(Find_JSON_By_Name(filename));
+	Json obj(doc, privilege);
+	obj.Export(fileToXML, fileToXSD);
 }
 
 void DataManager::Import(std::string_view filename, std::string_view privilege)
 {
 	std::string file = GetString("Config.json", { "DataManager",filename ,"ViewPrivileges" ,privilege ,"File" });
-	std::string fileToXML = GetString("Config.json", { "DataManager",filename ,"Path", "AdressToXML" }) + file + ".xml";
-	Document& doc = const_cast<Document&>(Find_JSON_By_Name(filename));
+	std::string fileFromXML = GetString("Config.json", { "DataManager",filename ,"Path", "AdressToXML" }) + file + ".xml";
 
-	Json obj;
-	obj.Import(doc, privilege, fileToXML);
+	Document& doc = const_cast<Document&>(Find_JSON_By_Name(filename));
+	Json obj(doc, privilege);
+	obj.Import(fileFromXML);
 }
 
 void DataManager::Store(std::string_view filename) const
