@@ -1,0 +1,30 @@
+{
+  "SPI": {
+    "SPI_1": {
+      "instance": "SPI1",
+      "mode": "MASTER",
+      "direction": "2LINES",
+      "data_size": "8BIT",
+      "clock_polarity": "LOW",
+      "clock_phase": "1EDGE",
+      "nss": "SOFT",
+      "baud_rate_prescaler": "DIV16",
+      "first_bit": "MSB",
+      "timode": "DISABLE",
+      "crcpolynomial": 7
+    },
+    "SPI_2": {
+      "instance": "SPI2",
+      "mode": "MASTER",
+      "direction": "1LINES",
+      "data_size": "8BIT",
+      "clock_polarity": "LOW",
+      "clock_phase": "1EDGE",
+      "nss": "SOFT",
+      "baud_rate_prescaler": "DIV16",
+      "first_bit": "LSB",
+      "timode": "DISABLE",
+      "crcpolynomial": 7
+    }
+  }
+}

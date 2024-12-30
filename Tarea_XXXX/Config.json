@@ -1,0 +1,76 @@
+{
+    "DataManager": {
+        "Files": [
+            "Config.json",
+            "Center.json",
+            "Datatypes.json",
+            "LogicCircuit.json"
+        ],
+        "Center.json": {
+            "Path": {
+                "AdressToXML": "C:\\Users\\mmpel\\OneDrive\\Escritorio\\Simulated\\0\\Settings\\Actual\\",
+                "AdressToXSD": "C:\\Users\\mmpel\\OneDrive\\Escritorio\\Simulated\\0\\Settings\\XSD\\"
+            },
+            "ViewPrivileges": {
+                "*": { "File": "ALL_INFO" },
+                "O": { "File": "CENTRO" },
+                "C": { "File": "CALIBRACION" },
+                "A": { "File": "CHANNEL_ASIGNATION" },
+                "I": { "File": "CHANNEL_DEFINITION_INSTALER" },
+                "D": { "File": "CHANNEL_DEFINITION_USER" },
+                "X": { "File": "CONFIG" },
+                "L": { "File": "LOGICAL_DEVICE" },
+                "P": { "File": "PHYSICAL_DEVICE" },
+                "T": { "File": "POSITIONS" },
+                "R": { "File": "RTC" },
+                "U": { "File": "USER" }
+            }
+        },
+        "LogicCircuit.json": {
+            "Path": {
+                "AdressToXML": "C:\\Users\\mmpel\\OneDrive\\Escritorio\\Simulated\\1\\Settings\\Actual\\",
+                "AdressToXSD": "C:\\Users\\mmpel\\OneDrive\\Escritorio\\Simulated\\1\\Settings\\XSD\\"
+            },
+            "ViewPrivileges": {
+                "*": { "File": "ALL_INFO" },
+                "C": { "File": "CONFIG" },
+                "I": { "File": "INSTALADOR" },
+                "U": { "File": "USER" }
+            }
+        }
+    },
+
+    "PostProcess": {
+        "Center.json": [
+            "Change_Language_For_Export_XML",
+            "Update_Read_Only_Variables_With_Is_Values",
+            "Show_Or_Hide_Logical_Units_By_Max_Number"
+        ],
+        "LogicCircuit.json": [
+            "Check_User_Curve_Names_And_Change_Data_Type",
+            "Show_Or_Hide_Protections_Unit_And_Automatism",
+            "Check_If_User_Curve_As_Good_Values_In_Is_Settings",
+            "Check_Conditions_For_U49P",
+            "Check_Conditions_For_U49T"
+        ]
+    },
+
+    "FileManager": {
+        "LittleFS": {
+            "BlockSize": 4096,
+            "LookAhead": 16,
+            "BlocvkCount": 128,
+            "InternalFlash": { "BaseAdress": 1234567 },
+            "ExternalFlash": { "BaseAdress": 9000000 },
+            "MicroSD": {
+                "SPI": {
+                    "SPI_channel": 1,
+                    "SPI_clock": 12000000
+                }
+            }
+        }
+    }
+
+
+
+}

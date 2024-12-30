@@ -1,0 +1,592 @@
+{
+  "Alarm": {
+    "ALARM": {
+    },
+    "TRIP": {
+    }
+  },
+  "Ampere": {
+    "uA": {
+      "Unit": "uA",
+      "Scale": 0.000001
+    },
+    "mA": {
+      "Unit": "mA",
+      "Scale": 0.001
+    },
+    "A": {
+      "Unit": "A",
+      "Scale": 1
+    },
+    "KA": {
+      "Unit": "KA",
+      "Scale": 1000
+    }
+  },
+  "ANG_WAT": {
+    "ANG": {
+    },
+    "WAT": {
+    }
+  },
+  "Angle": {
+    "Degree": {
+      "Unit": "Degree",
+      "Scale": 0.01753292
+    },
+    "Radian": {
+      "Unit": "Radian",
+      "Scale": 1
+    }
+  },
+  "Base_Current": {
+    "In": {
+    },
+    "I1": {
+    }
+  },
+  "Blocking": {
+    "OFF": {
+    },
+    "TRIP": {
+    },
+    "TIMMING": {
+    },
+    "UNIT": {
+    }
+  },
+  "Celsius": {
+    "Unit": "Celsius"
+  },
+  "Centre_Type": {
+    "CCP-200_IBD": {
+    },
+    "CCP-200_ORM": {
+    }
+  },
+  "Comms_Protocol": {
+    "Cirbus": {
+    },
+    "ModBus": {
+    },
+    "ProCome": {
+    }
+  },
+  "CPU_Mhz": {
+    "Unit": "MHz"
+  },
+  "Cross_Blocking": {
+    "OFF": {
+    },
+    "1_OUT_OF_3": {
+    },
+    "2_OUT_OF_3": {
+    }
+  },
+  "Cubicle_Type": {
+    "OTHER": {
+    },
+    "CGM96_24KV": {
+    },
+    "CGM96_36KV": {
+    },
+    "CGM3_36KV": {
+    },
+    "CGM800_24KV": {
+    },
+    "CGM800_36KV": {
+    },
+    "CGM_COSMOS_24KV": {
+    }
+  },
+  "Current_Channels": {
+    "NONE": {
+    }
+  },
+  "Curve": {
+    "IEC_DT": {
+    },
+    "IEC_NI": {
+    },
+    "IEC_VI": {
+    },
+    "IEC_EI": {
+    },
+    "IEC_STI": {
+    },
+    "IEC_LTI": {
+    },
+    "uno": {
+    },
+    "dos": {
+    },
+    "tres": {
+    },
+    "cuatro": {
+    }
+  },
+  "Curve_Backup": {
+    "IEC_DT": {
+    },
+    "IEC_NI": {
+    },
+    "IEC_VI": {
+    },
+    "IEC_EI": {
+    },
+    "IEC_STI": {
+    },
+    "IEC_LTI": {
+    },
+    "USER_CURVE_1": {
+      "Name": "uno"
+    },
+    "USER_CURVE_2": {
+      "Name": "dos"
+    },
+    "USER_CURVE_3": {
+      "Name": "tres"
+    },
+    "USER_CURVE_4": {
+      "Name": "cuatro"
+    }
+  },
+  "Data_Source": {
+    "FUNDAMENTAL": {
+    },
+    "RMS": {
+    }
+  },
+  "Date": {
+  },
+  "DPF_Type": {
+    "FAULT_CLEARED": {
+    },
+    "FAULT_NOT_CLEARED": {
+    }
+  },
+  "Frequency": {
+    "Hz": {
+      "Unit": "Ohms",
+      "Scale": 1
+    },
+    "KHz": {
+      "Unit": "Ohms",
+      "Scale": 1000
+    },
+    "MHz": {
+      "Unit": "Ohms",
+      "Scale": 10000000
+    },
+    "GHz": {
+      "Unit": "Ohms",
+      "Scale": 1E9
+    }
+  },
+  "Grid_Type": {
+    "MT": {
+    },
+    "BT": {
+    }
+  },
+  "Hardware_Mode": {
+    "STD": {
+    },
+    "FAB": {
+    }
+  },
+  "Hardware_Type": {
+    "CCP-200": {
+    },
+    "PSA-L": {
+    },
+    "PSA-C": {
+    }
+  },
+  "Interpolation": {
+    "LINEAL": {
+    },
+    "LOGARITMIC": {
+    }
+  },
+  "Inverse_Curves_Characteristics": {
+    "RESTRAINT_OFF": {
+    },
+    "RESTRAINT_ON_20In": {
+    }
+  },
+  "Kd": {
+  },
+  "Ke": {
+  },
+  "Language": {
+    "SPA": {
+    },
+    "ENG": {
+    },
+    "FRA": {
+    }
+  },
+  "LineFreq": {
+    "50": {
+      "Unit": "Hz"
+    },
+    "60": {
+      "Unit": "Hz"
+    }
+  },
+  "Logical_Device": {
+    "NONE": {
+    }
+  },
+  "Logical_Device_P0": {
+    "GENERAL": {
+    }
+  },
+  "Logical_Device_P1": {
+    "NO_MEASURE": {
+    },
+    "DPF": {
+    }
+  },
+  "MeasureSchema": {
+    "NO_MEASURE": {
+    },
+    "MRS_CLASS_I3_INS_V3": {
+    },
+    "MRS_CLASS_V3x4": {
+    },
+    "MRS_CLASS_IX5_Vx6_2xF": {
+    },
+    "MRS_CLASS_IX5_Vx6_1xF": {
+    }
+  },
+  "None": {
+  },
+  "On_Off": {
+    "ON": {
+    },
+    "OFF": {
+    }
+  },
+  "Percent": {
+    "Unit": "%",
+    "Scale": 1
+  },
+  "PhaseRelation": {
+    "500A/225mv": {
+    },
+    "500A/150mv": {
+    }
+  },
+  "Presence": {
+    "PRESENT": {
+    },
+    "MISSING": {
+    }
+  },
+  "Probe_Gains": {
+  },
+  "Protection_Group": {
+    "GROUP_1": {
+    },
+    "GROUP_2": {
+    },
+    "BY_LOGIC": {
+    }
+  },
+  "Protection_Measurement": {
+    "FUNDAMENTAL": {
+    }
+  },
+  "Pu": {
+    "Unit": "pu"
+  },
+  "Reset_Mode": {
+    "Definite_Time": {
+    },
+    "Dependent_Time": {
+    }
+  },
+  "Resistance": {
+    "mOhms": {
+      "Unit": "Ohms",
+      "Scale": 0.001
+    },
+    "Ohms": {
+      "Unit": "Ohms",
+      "Scale": 1
+    },
+    "KOhms": {
+      "Unit": "Ohms",
+      "Scale": 1000
+    },
+    "MOhms": {
+      "Unit": "Ohms",
+      "Scale": 1000000
+    }
+  },
+  "Samples_Per_Cycle": {
+    "32": {
+    },
+    "64": {
+    },
+    "128": {
+    },
+    "256": {
+    },
+    "512": {
+    },
+    "1024": {
+    },
+    "2048": {
+    },
+    "4096": {
+    }
+  },
+  "SemiCycles": {
+    "Unit": "SemiCycles"
+  },
+  "Sequence_Type": {
+    "ABC": {
+      "Unit": "Hz"
+    },
+    "ACB": {
+      "Unit": "Hz"
+    }
+  },
+  "Settings_Value": {
+    "PRIMARY": {
+    },
+    "SECONDARY": {
+    }
+  },
+  "SpiAD_Clk": {
+  },
+  "SpiAD_Term": {
+  },
+  "String": {
+  },
+  "Time": {
+    "us": {
+      "Unit": "us",
+      "Scale": 0.000001
+    },
+    "ms": {
+      "Unit": "ms",
+      "Scale": 0.001
+    },
+    "s": {
+      "Unit": "sec",
+      "Scale": 1.0
+    },
+    "min": {
+      "Unit": "min",
+      "Scale": 60
+    },
+    "hour": {
+      "Unit": "hour",
+      "Scale": 3600
+    },
+    "day": {
+      "Unit": "day",
+      "Scale": 86400
+    }
+  },
+  "Time_Zone": {
+    "UTC-11 Pacific/Midway": {
+    },
+    "UTC-11 Pacific/Niue": {
+    },
+    "UTC-11 Pacific/Pago_Pago": {
+    },
+    "UTC-10 America/Adak": {
+    },
+    "UTC-10 Pacific/Honolulu": {
+    },
+    "UTC-10 Pacific/Rarotonga": {
+    },
+    "UTC-10 Pacific/Tahiti": {
+    },
+    "UTC-9:30 Pacific/Marquesas": {
+    },
+    "UTC-9 America/Anchorage": {
+    },
+    "UTC-9 America/Juneau": {
+    },
+    "UTC-9 America/Metlakatla": {
+    },
+    "UTC-9 America/Nome": {
+    },
+    "UTC-9 America/Sitka": {
+    },
+    "UTC-9 America/Yakutat": {
+    },
+    "UTC-9 Pacific/Gambier": {
+    },
+    "UTC-8 America/Los_Angeles": {
+    },
+    "UTC-8 America/Tijuana": {
+    },
+    "UTC-8 America/Vancouver": {
+    },
+    "UTC-8 Pacific/Pitcairn": {
+    },
+    "UTC-7 America/Boise": {
+    },
+    "UTC-7 America/Cambridge_Bay": {
+    },
+    "UTC-7 America/Ciudad_Juarez": {
+    },
+    "UTC-7 America/Creston": {
+    },
+    "UTC-7 America/Dawson": {
+    },
+    "UTC-7 America/Dawson_Creek": {
+    },
+    "UTC-7 America/Denver": {
+    },
+    "UTC-7 America/Edmonton": {
+    },
+    "UTC-7 America/Fort_Nelson": {
+    },
+    "UTC-7 America/Hermosillo": {
+    },
+    "UTC-7 America/Inuvik": {
+    },
+    "UTC-7 America/Mazatlan": {
+    },
+    "UTC-7 America/Phoenix": {
+    },
+    "UTC-7 America/Whitehorse": {
+    },
+    "UTC-7 America/Yellowknife": {
+    },
+    "UTC-6 America/Bahia_Banderas": {
+    },
+    "UTC-6 America/Belize": {
+    },
+    "UTC-6 America/Chicago": {
+    },
+    "UTC-6 America/Chihuahua": {
+    },
+    "UTC-6 America/Costa_Rica": {
+    },
+    "UTC-6 America/El_Salvador": {
+    },
+    "UTC-6 America/Guatemala": {
+    },
+    "UTC-6 America/Indiana/Knox": {
+    },
+    "UTC-6 America/Indiana/Tell_City": {
+    },
+    "UTC-6 America/Managua": {
+    },
+    "UTC-6 America/Matamoros": {
+    },
+    "UTC-6 America/Menominee": {
+    },
+    "UTC-6 America/Merida": {
+    },
+    "UTC-6 America/Mexico_City": {
+    },
+    "UTC-6 America/Monterrey": {
+    },
+    "UTC-6 America/North_Dakota/Beulah": {
+    },
+    "UTC-6 America/North_Dakota/Center": {
+    },
+    "UTC-6 America/North_Dakota/New_Salem": {
+    },
+    "UTC-6 America/Ojinaga": {
+    },
+    "UTC-6 America/Rankin_Inlet": {
+    },
+    "UTC-6 America/Regina": {
+    },
+    "UTC-6 America/Resolute": {
+    },
+    "UTC-6 America/Swift_Current": {
+    },
+    "UTC-6 America/Tegucigalpa": {
+    },
+    "UTC-6 America/Winnipeg": {
+    },
+    "UTC-6 Pacific/Easter": {
+    },
+    "UTC-6 Pacific/Galapagos": {
+    },
+    "UTC-5 America/Atikokan": {
+    },
+    "UTC-5 America/Bogota": {
+    },
+    "UTC-5 America/Cancun": {
+    },
+    "UTC-5 America/Cayman": {
+    },
+    "UTC-5 America/Detroit": {
+    },
+    "UTC-5 America/Eirunepe": {
+    }
+  },
+  "TypeDevice": {
+    "NONE": {
+    },
+    "L": {
+    },
+    "P": {
+    },
+    "BL": {
+    }
+  },
+  "Voltage": {
+    "uV": {
+      "Unit": "uV",
+      "Scale": 0.000001
+    },
+    "mV": {
+      "Unit": "mV",
+      "Scale": 0.001
+    },
+    "V": {
+      "Unit": "V",
+      "Scale": 1
+    },
+    "Kv": {
+      "Unit": "KV",
+      "Scale": 1000
+    }
+  },
+  "Voltage_Channels": {
+    "NONE": {
+    }
+  },
+  "Watt": {
+    "uW": {
+      "Unit": "uW",
+      "Scale": 0.000001
+    },
+    "mW": {
+      "Unit": "mW",
+      "Scale": 0.001
+    },
+    "W": {
+      "Unit": "W",
+      "Scale": 1
+    },
+    "KW": {
+      "Unit": "KW",
+      "Scale": 1000
+    },
+    "MW": {
+      "Unit": "MW",
+      "Scale": 1000000
+    }
+  },
+  "Yes_No": {
+    "YES": {
+    },
+    "NO": {
+    }
+  }
+}

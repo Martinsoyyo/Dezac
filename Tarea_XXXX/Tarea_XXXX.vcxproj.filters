@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de origen">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{87ec2158-dada-4265-9f26-13a053952de8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Products">
+      <UniqueIdentifier>{dfd28ff4-2919-4b97-ab68-505d76c0ed13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Products\PSA-L">
+      <UniqueIdentifier>{0d5e4477-d789-419e-9f29-7ed0029b13a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Products\PSA-C">
+      <UniqueIdentifier>{d915a731-43ea-4e1f-a592-1299384156ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Products\CCP-200">
+      <UniqueIdentifier>{d7bfd7a0-a087-4c21-9860-94785a07dd99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JSON">
+      <UniqueIdentifier>{4d02fbb5-22a0-4d86-a080-4546892f3729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JSON\Headers">
+      <UniqueIdentifier>{006d59fd-ba5e-422f-a368-3ab76af3307b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Language">
+      <UniqueIdentifier>{454fdfa6-c2f8-4bb9-ab52-6d2f1529aa6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{a243d75a-78f6-4bb0-91d7-3bbf149f61be}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Tarea_XXXX.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="Json.cpp">
+      <Filter>JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="Xml.cpp">
+      <Filter>JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="PostProcess.cpp">
+      <Filter>JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Logging</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Datatypes.json">
+      <Filter>Data\Products\CCP-200</Filter>
+    </None>
+    <None Include="Center.json">
+      <Filter>Data\Products\CCP-200</Filter>
+    </None>
+    <None Include="LogicalDevices.json">
+      <Filter>Data\Products\CCP-200</Filter>
+    </None>
+    <None Include="Config.json">
+      <Filter>Data\Products\CCP-200</Filter>
+    </None>
+    <None Include="LogicCircuit.json">
+      <Filter>Data\Products\CCP-200</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DataManager.hpp">
+      <Filter>JSON\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Xml.hpp">
+      <Filter>JSON\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Json.hpp">
+      <Filter>JSON\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Language.hpp">
+      <Filter>Language</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.hpp">
+      <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries.hpp">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManager.hpp">
+      <Filter>JSON\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PostProcess.hpp">
+      <Filter>JSON\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

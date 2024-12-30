@@ -5,9 +5,10 @@
 #include <fstream>
 #include <sstream>
 
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
+#include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/writer.h>
 using namespace rapidjson;
 
 #include "rapidxml_utils.hpp"

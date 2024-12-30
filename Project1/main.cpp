@@ -49,8 +49,24 @@ void init_lfs_config() {
 	cfg.cache_size = 8;
 }
 
+// Show JSON tree in Pretty format. (to easy debug)
+void Show(const Value& json)
+{
+	StringBuffer buffer;
+	PrettyWriter<StringBuffer> writer(buffer);
+	writer.SetIndent(' ', 4);
+	json.Accept(writer);
+	std::cout << buffer.GetString() << std::endl;
+}
+
 
 int main() {
+
+	const char* jsonStringRaw = R"({"nombre": "Maria", "edad": 28, "intereses": ["música", "viajar"]})";
+
+	rapidjson::Document d;
+	d.Parse(jsonStringRaw);
+	Show(d);
 
 
 	flash_buffer = new char[LFS_BLOCK_SIZE * LFS_BLOCK_COUNT];  // Bloques de 512 bytes, 128 bloques
