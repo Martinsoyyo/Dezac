@@ -1,8 +1,16 @@
 #include "Json.hpp"
 
 
+Json::Json(const Document& jsonOriginal, std::string_view viewer) :
+	json_original_(jsonOriginal),
+	viewer_priority_(viewer)
+{
+	json_.SetObject();
+}
+
+
 // Checks if the values that i want to import has a correct type/subtype, formats, limits etc...
-bool Json::checkTypeBounds(const Value& original, std::string_view name, std::string_view value) const
+bool Json::checkTypeBounds(const Value& original, std::string_view name, std::string_view value)
 {
 	if (!original.HasMember(name.data())) return false;
 
@@ -31,7 +39,7 @@ bool Json::checkTypeBounds(const Value& original, std::string_view name, std::st
 }
 
 // Comprare JSON to check if is a valid structure, and source data make sense.
-bool Json::isValidJSON(const Value& source, const Value& original) const
+bool Json::isValidJSON(const Value& source, const Value& original)
 {
 	if (source.IsObject() && original.IsObject()) {
 		for (const auto& [name, value] : source.GetObject())
@@ -52,22 +60,24 @@ bool Json::isValidJSON(const Value& source, const Value& original) const
 	return true; // TODO: check condition!
 }
 
-// Checks XML file compatibility for shape and datatype, and create json_ for later. 
-bool Json::ProcessXML(std::string_view fileFromXML)
+// Checks XML file compatibility for shape and datatype, and create json_ for later.
+bool Json::ProcessXML(std::string_view XMLfile)
 {
-	json_.SetObject();
-
-	// Open File and parse XML.
-	xml_document<> _xml_to_proccess;
-	auto str = FileManager::Load(fileFromXML);
+	auto str = FileManager::Load(XMLfile);
 	if (!str.has_value()) {
-		LOG("[ERROR] Error loading XML file : %s\n", fileFromXML.data());
+		LOG("[ERROR] Error loading XML file : %s\n", XMLfile.data());
 		return false;
 	}
 
-	_xml_to_proccess.parse<0>(str.value().data());
-	XmlToJson(_xml_to_proccess.first_node(), json_, json_.GetAllocator());
+	// Open File and parse XML.
+	xml_document<> _xml_to_proccess;
+	try { _xml_to_proccess.parse<0>(str.value().data()); }
+	catch (...) {
+		LOG("[ERROR] Error parsing XML file : %s\n", XMLfile.data());
+		return false;
+	}
 
+	XmlToJson(_xml_to_proccess.first_node(), json_, json_.GetAllocator());
 	if (json_.HasParseError()) {
 		LOG("[ERROR] Json has parse errors.\n");
 		return false;
@@ -146,7 +156,7 @@ bool Json::Filter(
 	return false;
 }
 
-void Json::Import(Document& jsonOriginal, std::string_view viewer_priority, std::string_view XMLfile)
+void Json::Import(std::string_view XMLfile)
 {
 	if (ProcessXML(XMLfile) == false) {
 		LOG("[ERROR] ProcessXML as errors loading XML file : %s\n", XMLfile.data());
@@ -154,7 +164,9 @@ void Json::Import(Document& jsonOriginal, std::string_view viewer_priority, std:
 	}
 
 	Document sub_tree;
-	Filter(true, viewer_priority, jsonOriginal, sub_tree, sub_tree.GetAllocator());
+	// TODO: crear alocator suficiente para que no pete en stm32.
+
+	Filter(true, viewer_priority_, json_original_, sub_tree, sub_tree.GetAllocator());
 
 	//Json::Show(sub_tree);
 	if (isValidJSON(json_, sub_tree) == false) {
@@ -162,15 +174,16 @@ void Json::Import(Document& jsonOriginal, std::string_view viewer_priority, std:
 		return;
 	}
 
-	Combine(jsonOriginal, json_, jsonOriginal.GetAllocator());
+	Document& doc = const_cast<Document&>(json_original_);
+	Combine(doc, json_, doc.GetAllocator());
 }
 
-void Json::Export(const Value& jsonOriginal, std::string_view viewer_priority, std::string_view AdressXMLfile, std::string_view AdressXSDfile) const
+void Json::Export(std::string_view AdressXMLfile, std::string_view AdressXSDfile) const
 {
-	//Show(jsonOriginal);
 	Document sub_tree;
-	Filter(false, viewer_priority, jsonOriginal, sub_tree, sub_tree.GetAllocator());
-	//Show(sub_tree);
+	// TODO: crear alocator suficiente para que no pete en stm32.
+
+	Filter(false, viewer_priority_, json_original_, sub_tree, sub_tree.GetAllocator());
 
 	XML xml(std::move(sub_tree), AdressXMLfile, AdressXSDfile);
 }
@@ -187,7 +200,7 @@ std::pair<std::string, std::string> Json::GetTypeAndSubtype(std::string_view str
 	return { std::string(str.substr(0, pos)), std::string(str.substr(pos + delimiter.length())) };
 }
 
-// Recursive Function to reconstruct from XML --> JSON 
+// Recursive Function to reconstruct from XML --> JSON
 void Json::XmlToJson(xml_node<>* XMLnode, Value& JSONnode, Document::AllocatorType& allocator)
 {
 	Value json_child;

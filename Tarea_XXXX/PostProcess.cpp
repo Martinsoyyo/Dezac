@@ -239,6 +239,7 @@ void PostProcess::Show_Or_Hide_Protections_Unit_And_Automatism()
 			}
 		};
 
+
 	//OVERCURRENT
 	PresentMissing(
 		"LogicCircuit.json",
@@ -391,6 +392,7 @@ bool PostProcess::Check_If_User_Curve_As_Good_Values_In_Is_Settings()
 			return (i0 < i1 && i1 < i2 && i2 < i3 && i3 < i4 && i4 < i5);
 		};
 
+
 	auto num_user_curve = std::stoul(DATAMANAGER.GetString("Center.json", { "CONFIGURATION", "INFORMATION", "Max_User_Curves.", "Value" }));
 	for (size_t i = 0; i < num_user_curve; i++)
 	{
@@ -417,8 +419,9 @@ bool PostProcess::Check_Conditions_For_U49P()
 			auto alarm_threshold = std::strtof(subJSON["Alarm_Threshold"]["Value"].GetString(), nullptr);
 			auto trip_threshold = std::strtof(subJSON["Trip_Threshold"]["Value"].GetString(), nullptr);
 
-			return (restore_threshold < alarm_threshold < trip_threshold);
+			return (restore_threshold < alarm_threshold && alarm_threshold < trip_threshold);
 		};
+
 
 	return (
 		CheckLimits("LogicCircuit.json", { "CONFIGURATION", "SETTINGS", "PROTECTION_GROUP_1", "TEMPERATURE_PROTECTION", "THERMAL_OVERLOAD", "UNIT_49_G1" }) &&
@@ -442,7 +445,7 @@ bool PostProcess::Check_Conditions_For_U49T()
 			auto alarm_threshold = std::strtof(subJSON["Alarm1_Temperature"]["Value"].GetString(), nullptr);
 			auto trip_threshold = std::strtof(subJSON["Alarm2_Or_Trip_Temperature"]["Value"].GetString(), nullptr);
 
-			return (restore_threshold < alarm_threshold < trip_threshold);
+			return (restore_threshold < alarm_threshold && alarm_threshold < trip_threshold);
 		};
 
 

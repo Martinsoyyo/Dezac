@@ -28,7 +28,7 @@ private:
 
 private:
 	void Read_Config_And_Parse_Files(const Value& doc);
-    Document Create_JSON_From_String(std::string_view);
+	Document Create_JSON_From_String(std::string_view);
 	const Document& Find_JSON_By_Name(std::string_view filename) const;
 };
 

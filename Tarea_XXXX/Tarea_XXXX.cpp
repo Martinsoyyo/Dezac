@@ -16,9 +16,9 @@ int main()
 
 	//DATAMANAGER.Store("Datatypes.json");
 
-	//DATAMANAGER.Import("Center.json", "*");
-	//POSTPROCESS.DoPostProcess("Center.json");
-	//DATAMANAGER.Store("Center.json");
+	DATAMANAGER.Import("Center.json", "*");
+	POSTPROCESS.DoPostProcess("Center.json");
+	DATAMANAGER.Store("Center.json");
 	//DATAMANAGER.Export("Center.json", "*");
 
 
@@ -35,5 +35,5 @@ int main()
 	DATAMANAGER.Export("Center.json", "R");
 	DATAMANAGER.Export("Center.json", "U");
 
-	system("pause");
+	//system("pause");
 }

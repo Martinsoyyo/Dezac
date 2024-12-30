@@ -265,8 +265,8 @@ size_t CountDecimals(std::string_view str)
 // {"x.xxx" , "y.y"} --> "x.x" | {"x.x" , "y.yyy"} --> "x.x00" | {"x.xxx" , "y"} --> "x" 
 std::string XML::AdjustDecimals(std::string_view str, std::string_view value)
 {
-	size_t valueDecimals = CountDecimals(value);
-	size_t numDecimals = CountDecimals(str);
+	int valueDecimals = (int) CountDecimals(value);
+	int numDecimals = (int) CountDecimals(str);
 	int delta = valueDecimals - numDecimals;
 
 	if (delta == 0) return std::string(str);
@@ -295,6 +295,6 @@ std::string XML::GenerateShortID(const std::string& input)
 
 	char buffer[18];
 	buffer[0] = 'x';
-	snprintf(buffer + 1, sizeof(buffer) - 1, "%lx", hashValue);
+	snprintf(buffer + 1, sizeof(buffer) - 1, "%X", (uint32_t) hashValue);
 	return std::string(buffer);
 }
