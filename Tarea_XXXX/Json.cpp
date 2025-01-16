@@ -8,19 +8,18 @@ Json::Json(const Document& jsonOriginal, std::string_view viewer) :
 	json_.SetObject();
 }
 
-
 // Checks if the values that i want to import has a correct type/subtype, formats, limits etc...
-bool Json::checkTypeBounds(const Value& original, std::string_view name, std::string_view value)
+bool Json::Check_Type_And_Bounds(const Value& original, std::string_view name, std::string_view value)
 {
 	if (!original.HasMember(name.data())) return false;
 
 	const auto& _data = original[name.data()];
-	switch (DetermineVariableType(_data))
+	switch (Determine_Variable_Type(_data))
 	{
 	case VariableType::Enum: // {"Type": <type>::<subtype>} is a valid one?
 	{
-		auto [type, subtype] = GetTypeAndSubtype(_data["Type"].GetString());
-		return Json::GetDatatype()[type].HasMember(value.data());
+		auto [type, subtype] = Get_Type_And_Subtype(_data["Type"].GetString());
+		return Json::Get_Datatype()[type].HasMember(value.data());
 	}
 	case VariableType::Number: // {"Value": <value>} is in range?
 	{
@@ -39,18 +38,18 @@ bool Json::checkTypeBounds(const Value& original, std::string_view name, std::st
 }
 
 // Comprare JSON to check if is a valid structure, and source data make sense.
-bool Json::isValidJSON(const Value& source, const Value& original)
+bool Json::Is_Valid_JSON(const Value& source, const Value& new_json)
 {
-	if (source.IsObject() && original.IsObject()) {
+	if (source.IsObject() && new_json.IsObject()) {
 		for (const auto& [name, value] : source.GetObject())
 		{
 			if (!value.IsObject()) {
-				if (!checkTypeBounds(original, name.GetString(), value.GetString()))
+				if (!Check_Type_And_Bounds(new_json, name.GetString(), value.GetString()))
 				{
 					return false;
 				}
 			}
-			else if (!original.HasMember(name) || !isValidJSON(value, original[name]))
+			else if (!new_json.HasMember(name) || !Is_Valid_JSON(value, new_json[name]))
 			{
 				return false;
 			}
@@ -61,7 +60,7 @@ bool Json::isValidJSON(const Value& source, const Value& original)
 }
 
 // Checks XML file compatibility for shape and datatype, and create json_ for later.
-bool Json::ProcessXML(std::string_view XMLfile)
+bool Json::Process_XML(std::string_view XMLfile)
 {
 	auto str = FileManager::Load(XMLfile);
 	if (!str.has_value()) {
@@ -77,7 +76,7 @@ bool Json::ProcessXML(std::string_view XMLfile)
 		return false;
 	}
 
-	XmlToJson(_xml_to_proccess.first_node(), json_, json_.GetAllocator());
+	Xml_To_Json(_xml_to_proccess.first_node(), json_, json_.GetAllocator());
 	if (json_.HasParseError()) {
 		LOG("[ERROR] Json has parse errors.\n");
 		return false;
@@ -94,12 +93,12 @@ void Json::Combine(Value& dest, const Value& from, Document::AllocatorType& allo
 		for (auto& [name, value] : dest.GetObject())
 		{
 			auto str = name.GetString();
-			auto var = DetermineVariableType(value);
+			auto var = Determine_Variable_Type(value);
 			if (var != VariableType::NotAVariable && from.HasMember(str))
 			{
 				if (var == VariableType::Enum)
 				{
-					auto [type, subtype] = GetTypeAndSubtype(value["Type"].GetString());
+					auto [type, subtype] = Get_Type_And_Subtype(value["Type"].GetString());
 					auto str_subtype = (subtype == "") ? "" : std::string("::") + from[str].GetString();
 					value["Type"].SetString(type + str_subtype, alloc);
 				}
@@ -131,7 +130,7 @@ bool Json::Filter(
 	ViewPermission _p(str);
 
 	Value current_result(kObjectType);
-	if (DetermineVariableType(source) != VariableType::NotAVariable) {
+	if (Determine_Variable_Type(source) != VariableType::NotAVariable) {
 		bool ignoreHideTag = (ignoreHide == true) ? true : !_p.HasMember("H");
 		if (viewer_priority == "*" || (_p.HasMember(viewer_priority) && ignoreHideTag))
 		{
@@ -158,18 +157,16 @@ bool Json::Filter(
 
 void Json::Import(std::string_view XMLfile)
 {
-	if (ProcessXML(XMLfile) == false) {
-		LOG("[ERROR] ProcessXML as errors loading XML file : %s\n", XMLfile.data());
+	if (Process_XML(XMLfile) == false) {
+		LOG("[ERROR] Process_XML as errors loading XML file : %s\n", XMLfile.data());
 		return;
 	}
 
 	Document sub_tree;
-	// TODO: crear alocator suficiente para que no pete en stm32.
-
 	Filter(true, viewer_priority_, json_original_, sub_tree, sub_tree.GetAllocator());
-
 	//Json::Show(sub_tree);
-	if (isValidJSON(json_, sub_tree) == false) {
+
+	if (Is_Valid_JSON(json_, sub_tree) == false) {
 		LOG("[ERROR] The XML dont have a valid structure to import, XML file : %s\n", XMLfile.data());
 		return;
 	}
@@ -181,15 +178,13 @@ void Json::Import(std::string_view XMLfile)
 void Json::Export(std::string_view AdressXMLfile, std::string_view AdressXSDfile) const
 {
 	Document sub_tree;
-	// TODO: crear alocator suficiente para que no pete en stm32.
-
 	Filter(false, viewer_priority_, json_original_, sub_tree, sub_tree.GetAllocator());
 
 	XML xml(std::move(sub_tree), AdressXMLfile, AdressXSDfile);
 }
 
 // "Type::SubType" --> {"Type", "SubType"}
-std::pair<std::string, std::string> Json::GetTypeAndSubtype(std::string_view str)
+std::pair<std::string, std::string> Json::Get_Type_And_Subtype(std::string_view str)
 {
 	static constexpr std::string_view delimiter = "::";
 	size_t pos = str.find(delimiter);
@@ -201,7 +196,7 @@ std::pair<std::string, std::string> Json::GetTypeAndSubtype(std::string_view str
 }
 
 // Recursive Function to reconstruct from XML --> JSON
-void Json::XmlToJson(xml_node<>* XMLnode, Value& JSONnode, Document::AllocatorType& allocator)
+void Json::Xml_To_Json(xml_node<>* XMLnode, Value& JSONnode, Document::AllocatorType& allocator)
 {
 	Value json_child;
 
@@ -209,7 +204,7 @@ void Json::XmlToJson(xml_node<>* XMLnode, Value& JSONnode, Document::AllocatorTy
 		json_child.SetObject();
 		for (xml_node<>* child = XMLnode->first_node(); child; child = child->next_sibling())
 		{
-			XmlToJson(child, json_child, allocator);
+			Xml_To_Json(child, json_child, allocator);
 		}
 	}
 	else {
@@ -232,28 +227,28 @@ void Json::Show(const Value& json)
 }
 
 // Lazy Initialization of Datatype
-const Value& Json::GetDatatype(const Value& datatype) {
+const Value& Json::Get_Datatype(const Value& datatype) {
 	static const Value& _datatype = datatype;
 	return _datatype;
 }
 
 // "Type::SubType" is in datatype structure ?
-bool Json::IsValidTypeAndSubtype(std::string_view str)
+bool Json::Is_Valid_Type_And_Subtype(std::string_view str)
 {
-	const Value& datatype = Json::GetDatatype();
+	const Value& datatype = Json::Get_Datatype();
 
-	auto [type, subtype] = Json::GetTypeAndSubtype(str);
+	auto [type, subtype] = Json::Get_Type_And_Subtype(str);
 
 	return (subtype == "") ? datatype.HasMember(type.data()) :
 		datatype.HasMember(type.data()) && datatype[type.data()].HasMember(subtype.data());
 }
 
 // Unknow Variable --> { Enum or ReadOnly or Number or ... }
-VariableType Json::DetermineVariableType(const Value& node)
+VariableType Json::Determine_Variable_Type(const Value& node)
 {
 	if (node.IsObject())
 	{
-		bool hasTyp = node.HasMember("Type") && node["Type"].IsString() && IsValidTypeAndSubtype(node["Type"].GetString());
+		bool hasTyp = node.HasMember("Type") && node["Type"].IsString() && Is_Valid_Type_And_Subtype(node["Type"].GetString());
 		bool hasVal = node.HasMember("Value") && node["Value"].IsString();
 		bool hasMin = node.HasMember("Min") && node["Min"].IsString();
 		bool hasMax = node.HasMember("Max") && node["Max"].IsString();
@@ -261,7 +256,7 @@ VariableType Json::DetermineVariableType(const Value& node)
 		if (hasTyp && hasVal && hasMin && hasMax) { return VariableType::Number; }
 		if (hasTyp && hasVal)
 		{
-			auto [type, subtype] = Json::GetTypeAndSubtype(node["Type"].GetString());
+			auto [type, subtype] = Json::Get_Type_And_Subtype(node["Type"].GetString());
 			if (subtype == "") {
 				if (type == "String") return VariableType::String;
 				if (type == "Date")   return VariableType::Date;

@@ -71,7 +71,7 @@ void DataManager::Read_Config_And_Parse_Files(const Value& doc)
 
 	// Datatype.json is SPECIAL we need to pass this JSON in Lazy Initialization.
 	const Value& datatype = Find_JSON_By_Name("Datatypes.json");
-	Json::GetDatatype(datatype);
+	Json::Get_Datatype(datatype);
 
 }
 
@@ -88,7 +88,7 @@ const Document& DataManager::Find_JSON_By_Name(std::string_view filename) const
 	return doc;
 }
 
-const Value& DataManager::GetJSON(std::string_view filename, std::initializer_list<std::string_view> location) const
+const Value& DataManager::Get_JSON(std::string_view filename, std::initializer_list<std::string_view> location) const
 {
 	const Document& doc = Find_JSON_By_Name(filename);
 	const Value* currentValue = &doc;
@@ -105,9 +105,9 @@ const Value& DataManager::GetJSON(std::string_view filename, std::initializer_li
 	return *currentValue;
 }
 
-const std::string DataManager::GetString(std::string_view filename, std::initializer_list<std::string_view> location = {}) const
+const std::string DataManager::Get_String(std::string_view filename, std::initializer_list<std::string_view> location = {}) const
 {
-	const Value& subJSON = DATAMANAGER.GetJSON(filename, location);
+	const Value& subJSON = Get_JSON(filename, location);
 	if (!subJSON.IsString()) {
 		LOG("[ERROR] The STRING does not exist.", location);
 		return {};
@@ -116,31 +116,31 @@ const std::string DataManager::GetString(std::string_view filename, std::initial
 	return subJSON.GetString();
 }
 
-float DataManager::GetValue(std::string_view filename, std::initializer_list<std::string_view> location) const
+const float DataManager::Get_Value(std::string_view filename, std::initializer_list<std::string_view> location) const
 {
-	const Value& subJSON = DATAMANAGER.GetJSON(filename, location);
+	const Value& subJSON = Get_JSON(filename, location);
 
-	if (Json::DetermineVariableType(subJSON) != VariableType::Number)
+	if (Json::Determine_Variable_Type(subJSON) != VariableType::Number)
 	{
 		LOG("[ERROR] Type mismatch: expected numeric", location);
 		return {};
 	}
 
 	auto num = std::stof(subJSON["Value"].GetString());
-	auto [type, subtype] = Json::GetTypeAndSubtype(subJSON["Type"].GetString());
 
+	auto [type, subtype] = Json::Get_Type_And_Subtype(subJSON["Type"].GetString());
 	auto scale = (subtype == "") ?
-		GetJSON("Datatypes.json", { type, "Scale" }).GetFloat() :
-		GetJSON("Datatypes.json", { type, subtype, "Scale" }).GetFloat();
+		Get_JSON("Datatypes.json", { type, "Scale" }).GetFloat() :
+		Get_JSON("Datatypes.json", { type, subtype, "Scale" }).GetFloat();
 
 	return num * scale;
 }
 
 void DataManager::Export(std::string_view filename, std::string_view privilege) const
 {
-	std::string file = GetString("Config.json", { "DataManager",filename ,"ViewPrivileges" ,privilege ,"File" });
-	std::string fileToXML = GetString("Config.json", { "DataManager",filename ,"Path", "AdressToXML" }) + file + ".xml";
-	std::string fileToXSD = GetString("Config.json", { "DataManager",filename ,"Path", "AdressToXSD" }) + file + ".xsd";
+	std::string file = Get_String("Config.json", { "DataManager",filename ,"ViewPrivileges" ,privilege ,"File" });
+	std::string fileToXML = Get_String("Config.json", { "DataManager",filename ,"Path", "AdressToXML" }) + file + ".xml";
+	std::string fileToXSD = Get_String("Config.json", { "DataManager",filename ,"Path", "AdressToXSD" }) + file + ".xsd";
 
 	Document& doc = const_cast<Document&>(Find_JSON_By_Name(filename));
 	Json obj(doc, privilege);
@@ -149,8 +149,8 @@ void DataManager::Export(std::string_view filename, std::string_view privilege) 
 
 void DataManager::Import(std::string_view filename, std::string_view privilege)
 {
-	std::string file = GetString("Config.json", { "DataManager",filename ,"ViewPrivileges" ,privilege ,"File" });
-	std::string fileFromXML = GetString("Config.json", { "DataManager",filename ,"Path", "AdressToXML" }) + file + ".xml";
+	std::string file = Get_String("Config.json", { "DataManager",filename ,"ViewPrivileges" ,privilege ,"File" });
+	std::string fileFromXML = Get_String("Config.json", { "DataManager",filename ,"Path", "AdressToXML" }) + file + ".xml";
 
 	Document& doc = const_cast<Document&>(Find_JSON_By_Name(filename));
 	Json obj(doc, privilege);

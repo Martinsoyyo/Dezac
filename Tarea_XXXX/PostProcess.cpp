@@ -1,8 +1,8 @@
 #include "PostProcess.hpp"
 
-bool PostProcess::SetString(std::string_view filename, std::initializer_list<std::string_view> location, std::string_view new_value)
+bool PostProcess::Set_String(std::string_view filename, std::initializer_list<std::string_view> location, std::string_view new_value)
 {
-	Value& subJSON = const_cast<Value&>(DATAMANAGER.GetJSON(filename, location));
+	Value& subJSON = const_cast<Value&>(DATAMANAGER.Get_JSON(filename, location));
 	if (subJSON.IsString()) {
 		std::string old_value = subJSON.GetString();
 		if (old_value != new_value) {
@@ -17,13 +17,13 @@ bool PostProcess::SetString(std::string_view filename, std::initializer_list<std
 bool PostProcess::Modify_View_In_SubTree(Document& doc, Value& source, const ViewPermission& new_permission, const ViewModifier& modifier)
 {
 	if (source.IsObject()) {
-		if (Json::DetermineVariableType(source) != VariableType::NotAVariable)
+		if (Json::Determine_Variable_Type(source) != VariableType::NotAVariable)
 			modifier(doc, source, new_permission);
 
 		for (auto& [name, value] : source.GetObject())
 		{
 			auto aux = name.GetString();
-			if (Json::DetermineVariableType(value) != VariableType::NotAVariable) {
+			if (Json::Determine_Variable_Type(value) != VariableType::NotAVariable) {
 				modifier(doc, value, new_permission);
 			}
 			else if (!value.IsArray()) {
@@ -32,7 +32,7 @@ bool PostProcess::Modify_View_In_SubTree(Document& doc, Value& source, const Vie
 		}
 		return true;
 	}
-	return true;
+	return false;
 }
 
 void PostProcess::Set_View(Document& doc, Value& value, const ViewPermission& new_permission) {
@@ -65,7 +65,7 @@ void PostProcess::Clean_View(Document& doc, Value& value, const ViewPermission& 
 bool PostProcess::Change_Language_For_Export_XML()
 {
 	// Read Language setting and change state of translation units. to use when export XML/XSD.
-	const std::string& lang = DATAMANAGER.GetString("Center.json", { "CONFIGURATION", "GENERAL" ,"GENERAL_SETTINGS","Language","Type" });
+	const std::string& lang = DATAMANAGER.Get_String("Center.json", { "CONFIGURATION", "GENERAL" ,"GENERAL_SETTINGS","Language","Type" });
 	if (lang == "Language::SPA") T.setLanguage(LanguageType::Spanish);
 	else if (lang == "Language::ENG") T.setLanguage(LanguageType::English);
 	else if (lang == "Language::FRA") T.setLanguage(LanguageType::French);
@@ -84,9 +84,9 @@ void PostProcess::Update_Read_Only_Variables_With_Is_Values()
 		std::string_view from, std::initializer_list<std::string_view> typeLocation,
 		std::string_view to, std::initializer_list<std::string_view> valueLocation)
 		{
-			auto str = DATAMANAGER.GetString(from, typeLocation);
-			auto [type, subtype] = Json::GetTypeAndSubtype(str);
-			SetString(to, valueLocation, (subtype == "") ? type : subtype);
+			auto str = DATAMANAGER.Get_String(from, typeLocation);
+			auto [type, subtype] = Json::Get_Type_And_Subtype(str);
+			Set_String(to, valueLocation, (subtype == "") ? type : subtype);
 		};
 
 
@@ -123,7 +123,7 @@ void PostProcess::Update_Read_Only_Variables_With_Is_Values()
 		"Center.json", { "CONFIGURATION", "POSITIONS", "P0", "Logical_Device.", "Value" });
 
 
-	auto max_eq_logic_str = DATAMANAGER.GetString("Center.json", { "CONFIGURATION", "INFORMATION", "Logical_Equipment" , "Max" });
+	auto max_eq_logic_str = DATAMANAGER.Get_String("Center.json", { "CONFIGURATION", "INFORMATION", "Logical_Equipment" , "Max" });
 	auto max_eq_logic = std::stoul(max_eq_logic_str);
 	for (size_t i = 1; i < max_eq_logic; i++) {
 		std::string eq = "P" + std::to_string(i);
@@ -140,8 +140,8 @@ void PostProcess::Update_Read_Only_Variables_With_Is_Values()
 
 bool PostProcess::Show_Or_Hide_Logical_Units_By_Max_Number()
 {
-	auto max_eq_logic_str = DATAMANAGER.GetString("Center.json", { "CONFIGURATION", "INFORMATION", "Logical_Equipment" , "Max" });
-	auto num_eq_logic_str = DATAMANAGER.GetString("Center.json", { "CONFIGURATION", "INFORMATION", "Logical_Equipment" , "Value" });
+	auto max_eq_logic_str = DATAMANAGER.Get_String("Center.json", { "CONFIGURATION", "INFORMATION", "Logical_Equipment" , "Max" });
+	auto num_eq_logic_str = DATAMANAGER.Get_String("Center.json", { "CONFIGURATION", "INFORMATION", "Logical_Equipment" , "Value" });
 	auto max_eq_logic = std::stoul(max_eq_logic_str);
 	auto num_eq_logic = std::stoul(num_eq_logic_str);
 
@@ -150,7 +150,7 @@ bool PostProcess::Show_Or_Hide_Logical_Units_By_Max_Number()
 	// These logical devices will be shown.
 	for (size_t i = 0; i < num_eq_logic + 1; i++) {
 		std::string eq = "P" + std::to_string(i);
-		Value& subJSON = const_cast<Value&>(DATAMANAGER.GetJSON("Center.json", { "CONFIGURATION", "POSITIONS", eq }));
+		Value& subJSON = const_cast<Value&>(DATAMANAGER.Get_JSON("Center.json", { "CONFIGURATION", "POSITIONS", eq }));
 
 		// UnHide all elements in sub-tree
 		Modify_View_In_SubTree(doc, subJSON, ViewPermission("H"), std::bind(&PostProcess::Clean_View, this, _1, _2, _3));
@@ -159,7 +159,7 @@ bool PostProcess::Show_Or_Hide_Logical_Units_By_Max_Number()
 	// These logical devices will be hide.
 	for (size_t i = num_eq_logic + 1; i < max_eq_logic + 1; i++) {
 		std::string eq = "P" + std::to_string(i);
-		Value& subJSON = const_cast<Value&>(DATAMANAGER.GetJSON("Center.json", { "CONFIGURATION", "POSITIONS", eq }));
+		Value& subJSON = const_cast<Value&>(DATAMANAGER.Get_JSON("Center.json", { "CONFIGURATION", "POSITIONS", eq }));
 
 		// Hide all elements in sub-tree
 		Modify_View_In_SubTree(doc, subJSON, ViewPermission("H"), std::bind(&PostProcess::Set_View, this, _1, _2, _3));
@@ -170,19 +170,19 @@ bool PostProcess::Show_Or_Hide_Logical_Units_By_Max_Number()
 bool PostProcess::Check_User_Curve_Names_And_Change_Data_Type()
 {
 	// We'll begin by replacing the names of the user-defined curves into <Curve_Backup> datatype.
-	auto STR_NUM_USER_CURVE = DATAMANAGER.GetString("Center.json", { "CONFIGURATION", "INFORMATION", "Max_User_Curves." , "Value" });
-	auto num_user_curve = std::stoul(STR_NUM_USER_CURVE);
+	auto str_num_user_curve = DATAMANAGER.Get_String("Center.json", { "CONFIGURATION", "INFORMATION", "Max_User_Curves." , "Value" });
+	auto num_user_curve = std::stoul(str_num_user_curve);
 	for (size_t i = 1; i < num_user_curve + 1; i++) 
 	{
 		std::string curve_id = "USER_CURVE_" + std::to_string(i);
-		auto curve_name = DATAMANAGER.GetString("LogicCircuit.json", { "CONFIGURATION", "SETTINGS", "USER_CURVE", "INTERPOLATION", curve_id, "Name", "Value" });
-		SetString("Datatypes.json", { "Curve_Backup", curve_id, "Name" }, curve_name);
+		auto curve_name = DATAMANAGER.Get_String("LogicCircuit.json", { "CONFIGURATION", "SETTINGS", "USER_CURVE", "INTERPOLATION", curve_id, "Name", "Value" });
+		Set_String("Datatypes.json", { "Curve_Backup", curve_id, "Name" }, curve_name);
 	}
 
 
 	// In the final step, we will rebuild the curve data type with the updated names.
 	Document& doc = const_cast<Document&>(DATAMANAGER["Datatypes.json"]);
-	const Value& Datatypes = DATAMANAGER.GetJSON("Datatypes.json");
+	const Value& Datatypes = DATAMANAGER.Get_JSON("Datatypes.json");
 
 	Value& old = const_cast<Value&>(Datatypes["Curve"]);
 	old.RemoveAllMembers();
@@ -221,8 +221,8 @@ void PostProcess::Show_Or_Hide_Protections_Unit_And_Automatism()
 		{
 			using namespace std::placeholders;
 			Document& doc = const_cast<Document&>(DATAMANAGER["LogicCircuit.json"]);
-			Value& destJSON = const_cast<Value&>(DATAMANAGER.GetJSON(filename, nodeToSet));
-			std::string type = DATAMANAGER.GetString(filename, isPresentLocation);
+			Value& destJSON = const_cast<Value&>(DATAMANAGER.Get_JSON(filename, nodeToSet));
+			std::string type = DATAMANAGER.Get_String(filename, isPresentLocation);
 
 			if (type == "Presence::PRESENT") {
 				// UnHide all elements in sub-tree
@@ -380,7 +380,7 @@ bool PostProcess::Check_If_User_Curve_As_Good_Values_In_Is_Settings()
 		std::string_view filename,
 		std::initializer_list<std::string_view> Location)
 		{
-			const Value& subJSON = DATAMANAGER.GetJSON(filename, Location);
+			const Value& subJSON = DATAMANAGER.Get_JSON(filename, Location);
 
 			auto i0 = std::strtof(subJSON["I0"]["Value"].GetString(), nullptr);
 			auto i1 = std::strtof(subJSON["I1"]["Value"].GetString(), nullptr);
@@ -393,7 +393,7 @@ bool PostProcess::Check_If_User_Curve_As_Good_Values_In_Is_Settings()
 		};
 
 
-	auto num_user_curve = std::stoul(DATAMANAGER.GetString("Center.json", { "CONFIGURATION", "INFORMATION", "Max_User_Curves.", "Value" }));
+	auto num_user_curve = std::stoul(DATAMANAGER.Get_String("Center.json", { "CONFIGURATION", "INFORMATION", "Max_User_Curves.", "Value" }));
 	for (size_t i = 0; i < num_user_curve; i++)
 	{
 		std::string curve_id = "USER_CURVE_" + std::to_string(i + 1);
@@ -413,7 +413,7 @@ bool PostProcess::Check_Conditions_For_U49P()
 		std::string_view filename,
 		std::initializer_list<std::string_view> Location)
 		{
-			const Value& subJSON = DATAMANAGER.GetJSON(filename, Location);
+			const Value& subJSON = DATAMANAGER.Get_JSON(filename, Location);
 
 			auto restore_threshold = std::strtof(subJSON["Restore_Threshold"]["Value"].GetString(), nullptr);
 			auto alarm_threshold = std::strtof(subJSON["Alarm_Threshold"]["Value"].GetString(), nullptr);
@@ -439,7 +439,7 @@ bool PostProcess::Check_Conditions_For_U49T()
 		std::string_view filename,
 		std::initializer_list<std::string_view> Location)
 		{
-			const Value& subJSON = DATAMANAGER.GetJSON(filename, Location);
+			const Value& subJSON = DATAMANAGER.Get_JSON(filename, Location);
 
 			auto restore_threshold = std::strtof(subJSON["Restore_Temperature"]["Value"].GetString(), nullptr);
 			auto alarm_threshold = std::strtof(subJSON["Alarm1_Temperature"]["Value"].GetString(), nullptr);
@@ -454,7 +454,7 @@ bool PostProcess::Check_Conditions_For_U49T()
 	{
 		std::string id = "ELECTRONIC_RTD_" + std::to_string(i + 1);
 		res = res && CheckLimits("LogicCircuit.json", { "CONFIGURATION", "SETTINGS", "PROTECTION_GROUP_1", "TEMPERATURE_PROTECTION", "THERMAL_OVERLOAD", "UNIT_49T_G1", id });
-		//res = res && CheckLimits("LogicCircuit.json", { "CONFIGURATION", "SETTINGS", "PROTECTION_GROUP_2", "TEMPERATURE_PROTECTION", "THERMAL_OVERLOAD", "UNIT_49T_G1", id });
+		//res = res && CheckLimits("LogicCircuit.json", { "CONFIGURATION", "SETTINGS", "PROTECTION_GROUP_2", "TEMPERATURE_PROTECTION", "THERMAL_OVERLOAD", "UNIT_49T_G2", id });
 	}
 	return res;
 }

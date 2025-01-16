@@ -40,10 +40,7 @@ class PostProcess;
 
 class Json {
 public:
-	Json(
-		const Document& jsonOriginal,
-		std::string_view viewer
-	);
+	Json(const Document& jsonOriginal, std::string_view viewer);
 
 	void Import(std::string_view pathXMLfile);
 
@@ -53,7 +50,7 @@ public:
 	static void Show(const Value& json);
 
 	// Initialize static data in Json Class. (lazy initialization)
-	static const Value& GetDatatype(const Value& datatype = {});
+	static const Value& Get_Datatype(const Value& datatype = {});
 
 
 private:
@@ -62,7 +59,7 @@ private:
 	friend class DataManager;
 
 	// Checks XML file compatibility for shape and datatype, and create json_ for later. 
-	bool ProcessXML(std::string_view fileFromXML);
+	bool Process_XML(std::string_view fileFromXML);
 
 	// Combine JSON with the new values from Import.
 	void Combine(Value& to, const Value& from, Document::AllocatorType& alloc) const;
@@ -72,22 +69,22 @@ private:
 	//----------------------------------------------------------------------------
 
 	// Checks if the values has a correct type/subtype, formats, limits etc...
-	static bool checkTypeBounds(const Value& original, std::string_view, std::string_view);
+	static bool Check_Type_And_Bounds(const Value& original, std::string_view, std::string_view);
 
 	// Comprare JSON to check if is the same structure.
-	static bool isValidJSON(const Value& source, const Value& original);
+	static bool Is_Valid_JSON(const Value& source, const Value& original);
 
 	// "Type::SubType" is in datatype structure ?
-	static bool IsValidTypeAndSubtype(std::string_view type);
+	static bool Is_Valid_Type_And_Subtype(std::string_view type);
 
 	// Unknow Variable -->  { Enum or ReadOnly or Number or NotaVariable }
-	static VariableType DetermineVariableType(const Value& node);
+	static VariableType Determine_Variable_Type(const Value& node);
 
 	// "Type::SubType" --> {"Type", "SubType"}
-	static std::pair<std::string, std::string> GetTypeAndSubtype(std::string_view str);
+	static std::pair<std::string, std::string> Get_Type_And_Subtype(std::string_view str);
 
 	// Recursive Function to reconstruct from XML --> JSON (be aware of shape of this JSON)
-	static void XmlToJson(xml_node<>* source, Value& destination, Document::AllocatorType& alloc);
+	static void Xml_To_Json(xml_node<>* source, Value& destination, Document::AllocatorType& alloc);
 
 	// Get sub-TREE from the original JSON according to the viewer_priority.
 	static bool Filter(

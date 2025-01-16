@@ -15,9 +15,9 @@ public:
 	void Import(std::string_view filename, std::string_view privilege);
 	void Store(std::string_view filename) const;
 
-	const Value& GetJSON(std::string_view filename, std::initializer_list<std::string_view> location = {}) const;
-	const std::string GetString(std::string_view filename, std::initializer_list<std::string_view> location) const;
-	float GetValue(std::string_view filename, std::initializer_list<std::string_view> location) const;
+	const Value& Get_JSON(std::string_view filename, std::initializer_list<std::string_view> location = {}) const;
+	const float Get_Value(std::string_view filename, std::initializer_list<std::string_view> location) const;
+	const std::string Get_String(std::string_view filename, std::initializer_list<std::string_view> location) const;
 
 	const Document& operator[](std::string_view filename) const { return Find_JSON_By_Name(filename); };
 

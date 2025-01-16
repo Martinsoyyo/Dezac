@@ -14,7 +14,7 @@ public:
 		LOG("Create PostProcess::PostProcess()\n");
 	}
 
-	void DoPostProcess(std::string_view filename)
+	void Do_Post_Process(std::string_view filename)
 	{
 		if (filename == "Center.json") {
 			Change_Language_For_Export_XML();
@@ -36,7 +36,7 @@ public:
 private:
 	using ViewModifier = std::function<void(Document&, Value&, const ViewPermission&)>;
 
-	bool SetString(std::string_view filename, std::initializer_list<std::string_view> location, std::string_view new_value);
+	bool Set_String(std::string_view filename, std::initializer_list<std::string_view> location, std::string_view new_value);
 
 	bool Modify_View_In_SubTree(Document& doc, Value& source, const ViewPermission& new_permission, const ViewModifier& modifier);
 

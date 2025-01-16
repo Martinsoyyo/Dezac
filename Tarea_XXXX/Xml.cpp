@@ -14,7 +14,7 @@ void XML::Show(xml_node<>* node, int depth)
 	}
 }
 
-void XML::addXmlNode(xml_node<>* node, std::string_view key, std::string_view value = "")
+void XML::Add_Xml_Node(xml_node<>* node, std::string_view key, std::string_view value = "")
 {
 	char* nodeName = xml_.allocate_string(key.data());
 	char* nodeValue = xml_.allocate_string(value.data());
@@ -22,7 +22,7 @@ void XML::addXmlNode(xml_node<>* node, std::string_view key, std::string_view va
 	node->append_node(newNode);
 }
 
-void XML::addXsdNode(xml_node<>* node, std::string_view key, std::string_view type, std::string_view displayName)
+void XML::Add_Xsd_Node(xml_node<>* node, std::string_view key, std::string_view type, std::string_view displayName)
 {
 	xml_node<>* newNode = xsd_.allocate_node(node_type::node_element, "xs:element");
 	newNode->append_attribute(xsd_.allocate_attribute("name", xsd_.allocate_string(key.data())));
@@ -31,7 +31,7 @@ void XML::addXsdNode(xml_node<>* node, std::string_view key, std::string_view ty
 	node->append_node(newNode);
 }
 
-auto XML::addXsdElement(xml_node<>* node, std::string_view key)
+auto XML::Add_Xsd_Element(xml_node<>* node, std::string_view key)
 {
 	xml_node<>* element = xsd_.allocate_node(node_type::node_element, "xs:element");
 	xml_node<>* complexType = xsd_.allocate_node(node_type::node_element, "xs:complexType");
@@ -46,7 +46,7 @@ auto XML::addXsdElement(xml_node<>* node, std::string_view key)
 	return sequence;
 }
 
-void XML::addXsdEnums(std::string_view key, std::vector<std::string_view>&& values, std::string_view unit)
+void XML::Add_Xsd_Enums(std::string_view key, std::vector<std::string_view>&& values, std::string_view unit)
 {
 	if (unit != "") {
 		char* nodeValue = xsdTypes_.allocate_string(key.data());
@@ -90,16 +90,16 @@ void XML::addXsdEnums(std::string_view key, std::vector<std::string_view>&& valu
 	}
 }
 
-void XML::addXsdTypeEnum(std::string_view type, std::string_view unit)
+void XML::Add_Xsd_Type_Enum(std::string_view type, std::string_view unit)
 {
-	if (std::find(xsdTypesIsPresent.begin(), xsdTypesIsPresent.end(), type) == xsdTypesIsPresent.end())
-		xsdTypesIsPresent.push_back(std::string(type));
+	if (std::find(xsdTypesIsPresent_.begin(), xsdTypesIsPresent_.end(), type) == xsdTypesIsPresent_.end())
+		xsdTypesIsPresent_.push_back(std::string(type));
 	else
 		return;
 
 	std::vector<std::string_view> enum_types;
 
-	const Value& datatype = Json::GetDatatype();
+	const Value& datatype = Json::Get_Datatype();
 	if (datatype.HasMember(type.data()) && datatype[type.data()].IsObject()) {
 		const Value& typeObject = datatype[type.data()];
 
@@ -107,10 +107,10 @@ void XML::addXsdTypeEnum(std::string_view type, std::string_view unit)
 			enum_types.push_back(name.GetString());
 	}
 
-	addXsdEnums(type, std::move(enum_types), unit);
+	Add_Xsd_Enums(type, std::move(enum_types), unit);
 }
 
-void XML::addXsdNumber(std::string_view type, std::string_view min, std::string_view max, std::string_view unit)
+void XML::Add_Xsd_Number(std::string_view type, std::string_view min, std::string_view max, std::string_view unit)
 {
 	xml_node<>* _type = xsdTypes_.allocate_node(node_type::node_element, "xs:complexType");
 	xml_node<>* _simple = xsdTypes_.allocate_node(node_type::node_element, "xs:simpleContent");
@@ -138,7 +138,7 @@ void XML::addXsdNumber(std::string_view type, std::string_view min, std::string_
 	xsdTypes_.append_node(_type);
 }
 
-void XML::addXsdBasicType(std::string_view type, std::string_view extension, std::string_view attribute)
+void XML::Add_Xsd_Basic_Type(std::string_view type, std::string_view extension, std::string_view attribute)
 {
 	xml_node<>* _type = xsdTypes_.allocate_node(node_type::node_element, "xs:complexType");
 	xml_node<>* _simple = xsdTypes_.allocate_node(node_type::node_element, "xs:simpleContent");
@@ -166,15 +166,15 @@ XML::XML(const Value&& json, std::string_view XMLfile, std::string_view XSDfile)
 		return;
 	}
 
-	addXsdBasicType("tString", "xs:string", "unit");
-	addXsdBasicType("tDecimal", "xs:decimal", "unit");
-	addXsdBasicType("tReadOnly", "xs:string");
+	Add_Xsd_Basic_Type("tString", "xs:string", "unit");
+	Add_Xsd_Basic_Type("tDecimal", "xs:decimal", "unit");
+	Add_Xsd_Basic_Type("tReadOnly", "xs:string");
 
-	jsonToXml(json, &xml_, &xsd_);
-	save(XMLfile, XSDfile);
+	Json_To_Xml(json, &xml_, &xsd_);
+	Save(XMLfile, XSDfile);
 }
 
-void XML::save(std::string_view XMLfile, std::string_view XSDfile)
+void XML::Save(std::string_view XMLfile, std::string_view XSDfile)
 {
 	std::string xml_as_string = "<?xml version=\"1.0\" encoding=\"utf-8\"?> \n";
 	print(std::back_inserter(xml_as_string), xml_);
@@ -192,25 +192,25 @@ void XML::save(std::string_view XMLfile, std::string_view XSDfile)
 	FileManager::SendToMicroSD(XSDfile, xml_as_string);
 }
 
-void XML::jsonToXml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, const std::string& parent)
+void XML::Json_To_Xml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, const std::string& parent)
 {
 	for (const auto& [name, value] : node.GetObject()) {
-		auto variable_type = Json::DetermineVariableType(value);
+		auto variable_type = Json::Determine_Variable_Type(value);
 		auto strname = name.GetString();
 
 		if (variable_type == VariableType::NotAVariable) {
-			addXmlNode(xml_, strname);
-			auto last_child = addXsdElement(xsd_, strname);
-			jsonToXml(value, xml_->last_node(), last_child, parent + strname);
+			Add_Xml_Node(xml_, strname);
+			auto last_child = Add_Xsd_Element(xsd_, strname);
+			Json_To_Xml(value, xml_->last_node(), last_child, parent + strname);
 		}
 		else if (variable_type == VariableType::ReadOnly) {
-			addXmlNode(xml_, strname, value["Value"].GetString());
-			addXsdNode(xsd_, strname, "tReadOnly", strname);
+			Add_Xml_Node(xml_, strname, value["Value"].GetString());
+			Add_Xsd_Node(xsd_, strname, "tReadOnly", strname);
 		}
 		else {
-			auto [type, subtype] = Json::GetTypeAndSubtype(value["Type"].GetString());
+			auto [type, subtype] = Json::Get_Type_And_Subtype(value["Type"].GetString());
 
-			const Value& datatype = Json::GetDatatype();
+			const Value& datatype = Json::Get_Datatype();
 			std::string unit = "";
 			if (subtype == "")
 			{
@@ -224,32 +224,32 @@ void XML::jsonToXml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, const
 				}
 			}
 			if (variable_type == VariableType::Enum) {
-				addXmlNode(xml_, strname, subtype);
-				addXsdNode(xsd_, strname, type, strname);
-				addXsdTypeEnum(type, unit);
+				Add_Xml_Node(xml_, strname, subtype);
+				Add_Xsd_Node(xsd_, strname, type, strname);
+				Add_Xsd_Type_Enum(type, unit);
 			}
 			else if (variable_type == VariableType::Number) {
-				addXmlNode(xml_, strname, value["Value"].GetString());
-				addXsdNode(xsd_, strname, GenerateShortID(parent + strname), strname);
+				Add_Xml_Node(xml_, strname, value["Value"].GetString());
+				Add_Xsd_Node(xsd_, strname, Generate_Short_ID(parent + strname), strname);
 
-				addXsdNumber(
-					GenerateShortID(parent + strname),
-					AdjustDecimals(value["Min"].GetString(), value["Value"].GetString()),
-					AdjustDecimals(value["Max"].GetString(), value["Value"].GetString()),
+				Add_Xsd_Number(
+					Generate_Short_ID(parent + strname),
+					Adjust_Decimals(value["Min"].GetString(), value["Value"].GetString()),
+					Adjust_Decimals(value["Max"].GetString(), value["Value"].GetString()),
 					unit
 				);
 			}
 			else if (variable_type == VariableType::String) {
-				addXmlNode(xml_, strname, value["Value"].GetString());
-				addXsdNode(xsd_, strname, "tString", strname);
+				Add_Xml_Node(xml_, strname, value["Value"].GetString());
+				Add_Xsd_Node(xsd_, strname, "tString", strname);
 			}
 			else if (variable_type == VariableType::Date) {
-				addXmlNode(xml_, strname, value["Value"].GetString());
-				addXsdNode(xsd_, strname, "xs:date", strname);
+				Add_Xml_Node(xml_, strname, value["Value"].GetString());
+				Add_Xsd_Node(xsd_, strname, "xs:date", strname);
 			}
 			else if (variable_type == VariableType::Time) {
-				addXmlNode(xml_, strname, value["Value"].GetString());
-				addXsdNode(xsd_, strname, "xs:time", strname);
+				Add_Xml_Node(xml_, strname, value["Value"].GetString());
+				Add_Xsd_Node(xsd_, strname, "xs:time", strname);
 			}
 		}
 	}
@@ -263,7 +263,7 @@ size_t CountDecimals(std::string_view str)
 }
 
 // {"x.xxx" , "y.y"} --> "x.x" | {"x.x" , "y.yyy"} --> "x.x00" | {"x.xxx" , "y"} --> "x" 
-std::string XML::AdjustDecimals(std::string_view str, std::string_view value)
+std::string XML::Adjust_Decimals(std::string_view str, std::string_view value)
 {
 	int valueDecimals = (int) CountDecimals(value);
 	int numDecimals = (int) CountDecimals(str);
@@ -288,7 +288,7 @@ std::string XML::AdjustDecimals(std::string_view str, std::string_view value)
 }
 
 // {any words of any length} --> {Hexa number of 32bits}
-std::string XML::GenerateShortID(const std::string& input)
+std::string XML::Generate_Short_ID(const std::string& input)
 {
 	std::hash<std::string> hasher;
 	size_t hashValue = hasher(input);

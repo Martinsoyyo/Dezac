@@ -6,7 +6,7 @@
 int main()
 {
 	//DATAMANAGER.Import("LogicCircuit.json", "*");
-	//POSTPROCESS.DoPostProcess("LogicCircuit.json");
+	//POSTPROCESS.Do_Post_Process("LogicCircuit.json");
 	//DATAMANAGER.Store("LogicCircuit.json");
 	DATAMANAGER.Export("LogicCircuit.json", "*");
 	DATAMANAGER.Export("LogicCircuit.json", "C");
@@ -17,7 +17,7 @@ int main()
 	//DATAMANAGER.Store("Datatypes.json");
 
 	DATAMANAGER.Import("Center.json", "*");
-	POSTPROCESS.DoPostProcess("Center.json");
+	POSTPROCESS.Do_Post_Process("Center.json");
 	DATAMANAGER.Store("Center.json");
 	//DATAMANAGER.Export("Center.json", "*");
 
