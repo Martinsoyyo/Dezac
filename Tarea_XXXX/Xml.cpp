@@ -92,14 +92,14 @@ void XML::Add_Xsd_Enums(std::string_view key, std::vector<std::string_view>&& va
 
 void XML::Add_Xsd_Type_Enum(std::string_view type, std::string_view unit)
 {
-	if (std::find(xsdTypesIsPresent_.begin(), xsdTypesIsPresent_.end(), type) == xsdTypesIsPresent_.end())
-		xsdTypesIsPresent_.push_back(std::string(type));
-	else
+	if (std::find(xsdTypesIsPresent_.begin(), xsdTypesIsPresent_.end(), type) != xsdTypesIsPresent_.end())
 		return;
+
+	xsdTypesIsPresent_.emplace_back(type);
 
 	std::vector<std::string_view> enum_types;
 
-	const Value& datatype = Json::Get_Datatype();
+	const Value& datatype = Json::Datatype();
 	if (datatype.HasMember(type.data()) && datatype[type.data()].IsObject()) {
 		const Value& typeObject = datatype[type.data()];
 
@@ -159,7 +159,7 @@ void XML::Add_Xsd_Basic_Type(std::string_view type, std::string_view extension, 
 	xsdTypes_.append_node(_type);
 }
 
-XML::XML(const Value&& json, std::string_view XMLfile, std::string_view XSDfile)
+XML::XML(const Value& json)
 {
 	if (json.IsNull()) {
 		LOG("[ERROR] Json to process is empty!\n");
@@ -171,25 +171,31 @@ XML::XML(const Value&& json, std::string_view XMLfile, std::string_view XSDfile)
 	Add_Xsd_Basic_Type("tReadOnly", "xs:string");
 
 	Json_To_Xml(json, &xml_, &xsd_);
-	Save(XMLfile, XSDfile);
 }
 
-void XML::Save(std::string_view XMLfile, std::string_view XSDfile)
+const std::string XML::Get_XSD()
 {
-	std::string xml_as_string = "<?xml version=\"1.0\" encoding=\"utf-8\"?> \n";
-	print(std::back_inserter(xml_as_string), xml_);
-	FileManager::SendToMicroSD(XMLfile, xml_as_string);
-
 	std::string xml_head = R"(<?xml version = "1.0" encoding = "ISO-8859-1" ?>)""\n";
 	std::string xml_content = R"(<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:orm="http://com.ormazabal.es/settings" attributeFormDefault="unqualified" elementFormDefault="qualified">)""\n";
 	std::string xml_closure = R"(</xs:schema>)""\n";
 
-	xml_as_string = xml_head + xml_content;
-	print(std::back_inserter(xml_as_string), xsd_);
-	print(std::back_inserter(xml_as_string), xsdTypes_);
-	xml_as_string += xml_closure;
+	std::string str = xml_head + xml_content;
+	print(std::back_inserter(str), xsd_);
+	print(std::back_inserter(str), xsdTypes_);
+	str += xml_closure;
 
-	FileManager::SendToMicroSD(XSDfile, xml_as_string);
+	xsd_.clear();
+	xsdTypes_.clear();
+	return str;
+}
+
+const std::string XML::Get_XML()
+{
+	std::string str = "<?xml version=\"1.0\" encoding=\"utf-8\"?> \n";
+	print(std::back_inserter(str), xml_);
+
+	xml_.clear();
+	return str;
 }
 
 void XML::Json_To_Xml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, const std::string& parent)
@@ -210,7 +216,7 @@ void XML::Json_To_Xml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, con
 		else {
 			auto [type, subtype] = Json::Get_Type_And_Subtype(value["Type"].GetString());
 
-			const Value& datatype = Json::Get_Datatype();
+			const Value& datatype = Json::Datatype();
 			std::string unit = "";
 			if (subtype == "")
 			{

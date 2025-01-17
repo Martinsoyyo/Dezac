@@ -22,10 +22,14 @@ DataManager::DataManager(std::string_view filename)
 		return;
 	}
 
-	if (doc.HasMember("DataManager") && doc["DataManager"].IsObject()) {
+	if (doc.HasMember("DataManager") && doc["DataManager"].IsObject()) 
+	{
 		Read_Config_And_Parse_Files(doc["DataManager"]);
-	}
 
+		// Datatype.json is SPECIAL, we need to pass to <Json class> in Lazy Initialization.
+		const Value& datatype = Find_JSON_By_Name("Datatypes.json");
+		Json::Datatype(datatype);
+	}
 }
 
 Document DataManager::Create_JSON_From_String(std::string_view str)
@@ -37,7 +41,7 @@ Document DataManager::Create_JSON_From_String(std::string_view str)
 		return {};
 	}
 
-	return std::move(doc);
+	return doc;  // Named Return Value Optimization (NRVO)
 }
 
 void DataManager::Read_Config_And_Parse_Files(const Value& doc)
@@ -68,11 +72,6 @@ void DataManager::Read_Config_And_Parse_Files(const Value& doc)
 		LOG("[ERROR] The files could not be loaded from the JSON.\n");
 		return;
 	}
-
-	// Datatype.json is SPECIAL we need to pass this JSON in Lazy Initialization.
-	const Value& datatype = Find_JSON_By_Name("Datatypes.json");
-	Json::Get_Datatype(datatype);
-
 }
 
 const Document& DataManager::Find_JSON_By_Name(std::string_view filename) const
@@ -84,14 +83,12 @@ const Document& DataManager::Find_JSON_By_Name(std::string_view filename) const
 	}
 
 	LOG("[ERROR] Filename %s not found. \n", filename);
-	static Document doc{};
-	return doc;
+	return Document();
 }
 
 const Value& DataManager::Get_JSON(std::string_view filename, std::initializer_list<std::string_view> location) const
 {
-	const Document& doc = Find_JSON_By_Name(filename);
-	const Value* currentValue = &doc;
+	const Value* currentValue = &Find_JSON_By_Name(filename);
 
 	for (const auto& key : location) {
 		if (currentValue->IsObject() && currentValue->HasMember(key.data())) {
@@ -119,7 +116,6 @@ const std::string DataManager::Get_String(std::string_view filename, std::initia
 const float DataManager::Get_Value(std::string_view filename, std::initializer_list<std::string_view> location) const
 {
 	const Value& subJSON = Get_JSON(filename, location);
-
 	if (Json::Determine_Variable_Type(subJSON) != VariableType::Number)
 	{
 		LOG("[ERROR] Type mismatch: expected numeric", location);

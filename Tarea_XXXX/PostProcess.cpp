@@ -229,7 +229,7 @@ void PostProcess::Show_Or_Hide_Protections_Unit_And_Automatism()
 				Modify_View_In_SubTree(doc, destJSON, ViewPermission("H"), std::bind(&PostProcess::Clean_View, this, _1, _2, _3));
 			}
 			else if (type == "Presence::MISSING") {
-				// UnHide all elements in sub-tree
+				// Hide all elements in sub-tree
 				Modify_View_In_SubTree(doc, destJSON, ViewPermission("H"), std::bind(&PostProcess::Set_View, this, _1, _2, _3));
 			}
 			else
@@ -382,12 +382,12 @@ bool PostProcess::Check_If_User_Curve_As_Good_Values_In_Is_Settings()
 		{
 			const Value& subJSON = DATAMANAGER.Get_JSON(filename, Location);
 
-			auto i0 = std::strtof(subJSON["I0"]["Value"].GetString(), nullptr);
-			auto i1 = std::strtof(subJSON["I1"]["Value"].GetString(), nullptr);
-			auto i2 = std::strtof(subJSON["I2"]["Value"].GetString(), nullptr);
-			auto i3 = std::strtof(subJSON["I3"]["Value"].GetString(), nullptr);
-			auto i4 = std::strtof(subJSON["I4"]["Value"].GetString(), nullptr);
-			auto i5 = std::strtof(subJSON["I5"]["Value"].GetString(), nullptr);
+			float i0 = std::strtof(subJSON["I0"]["Value"].GetString(), nullptr);
+			float i1 = std::strtof(subJSON["I1"]["Value"].GetString(), nullptr);
+			float i2 = std::strtof(subJSON["I2"]["Value"].GetString(), nullptr);
+			float i3 = std::strtof(subJSON["I3"]["Value"].GetString(), nullptr);
+			float i4 = std::strtof(subJSON["I4"]["Value"].GetString(), nullptr);
+			float i5 = std::strtof(subJSON["I5"]["Value"].GetString(), nullptr);
 
 			return (i0 < i1 && i1 < i2 && i2 < i3 && i3 < i4 && i4 < i5);
 		};
@@ -405,7 +405,7 @@ bool PostProcess::Check_If_User_Curve_As_Good_Values_In_Is_Settings()
 	return true;
 }
 
-// I need to check that RestoreTemp < Alarm < Trip for all U49T units.
+// I need to check that RestoreTemp < Alarm < Trip for all U49P units.
 bool PostProcess::Check_Conditions_For_U49P()
 {
 	// Helper Lambda.

@@ -3,6 +3,7 @@
 
 #include "Log.hpp"
 #include "XML.hpp"
+#include "FileManager.hpp"
 
 class ViewPermission {
 public:
@@ -50,7 +51,7 @@ public:
 	static void Show(const Value& json);
 
 	// Initialize static data in Json Class. (lazy initialization)
-	static const Value& Get_Datatype(const Value& datatype = {});
+	static const Value& Datatype(const Value& datatype = {});
 
 
 private:

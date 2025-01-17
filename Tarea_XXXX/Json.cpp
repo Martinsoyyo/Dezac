@@ -19,7 +19,7 @@ bool Json::Check_Type_And_Bounds(const Value& original, std::string_view name, s
 	case VariableType::Enum: // {"Type": <type>::<subtype>} is a valid one?
 	{
 		auto [type, subtype] = Get_Type_And_Subtype(_data["Type"].GetString());
-		return Json::Get_Datatype()[type].HasMember(value.data());
+		return Json::Datatype()[type].HasMember(value.data());
 	}
 	case VariableType::Number: // {"Value": <value>} is in range?
 	{
@@ -180,7 +180,10 @@ void Json::Export(std::string_view AdressXMLfile, std::string_view AdressXSDfile
 	Document sub_tree;
 	Filter(false, viewer_priority_, json_original_, sub_tree, sub_tree.GetAllocator());
 
-	XML xml(std::move(sub_tree), AdressXMLfile, AdressXSDfile);
+	XML xml(sub_tree);
+
+	FileManager::SendToMicroSD(AdressXMLfile, xml.Get_XML());
+	FileManager::SendToMicroSD(AdressXSDfile, xml.Get_XSD());
 }
 
 // "Type::SubType" --> {"Type", "SubType"}
@@ -227,7 +230,7 @@ void Json::Show(const Value& json)
 }
 
 // Lazy Initialization of Datatype
-const Value& Json::Get_Datatype(const Value& datatype) {
+const Value& Json::Datatype(const Value& datatype) {
 	static const Value& _datatype = datatype;
 	return _datatype;
 }
@@ -235,12 +238,11 @@ const Value& Json::Get_Datatype(const Value& datatype) {
 // "Type::SubType" is in datatype structure ?
 bool Json::Is_Valid_Type_And_Subtype(std::string_view str)
 {
-	const Value& datatype = Json::Get_Datatype();
-
 	auto [type, subtype] = Json::Get_Type_And_Subtype(str);
 
-	return (subtype == "") ? datatype.HasMember(type.data()) :
-		datatype.HasMember(type.data()) && datatype[type.data()].HasMember(subtype.data());
+	return (subtype == "") ? 
+		Json::Datatype().HasMember(type.data()) :
+		Json::Datatype().HasMember(type.data()) && Json::Datatype()[type.data()].HasMember(subtype.data());
 }
 
 // Unknow Variable --> { Enum or ReadOnly or Number or ... }

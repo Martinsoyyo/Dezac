@@ -4,13 +4,13 @@
 #include "JSON.hpp"
 #include "Language.hpp"
 #include "DataManager.hpp"
-#include "FileManager.hpp"
 
-// This class is instantiated only to save to XML file, it will be consumed, after constructor.
 class  XML {
 public:
-	XML(const Value&& json, std::string_view XMLfile, std::string_view XSDfile);
+	XML(const Value& json);
 
+	const std::string Get_XSD();
+	const std::string Get_XML();
 
 private:
 	void Add_Xml_Node(xml_node<>* node, std::string_view key, std::string_view value);
@@ -21,7 +21,6 @@ private:
 	void Add_Xsd_Basic_Type(std::string_view type, std::string_view extension, std::string_view attribute = "");
 	void Add_Xsd_Type_Enum(std::string_view type, std::string_view unit);
 	void Json_To_Xml(const Value& json, xml_node<>* node_xml, xml_node<>* node_xsd, const std::string& parent = "");
-	void Save(std::string_view XMLfile, std::string_view XSDfile);
 
 	//----------------------------------------------------------------------------
 	// STATICS MEMBERS 
