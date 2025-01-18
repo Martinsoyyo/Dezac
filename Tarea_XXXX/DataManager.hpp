@@ -18,7 +18,6 @@ public:
 	const Value& Get_JSON(std::string_view filename, std::initializer_list<std::string_view> location = {}) const;
 	const float Get_Value(std::string_view filename, std::initializer_list<std::string_view> location) const;
 	const std::string Get_String(std::string_view filename, std::initializer_list<std::string_view> location) const;
-
 	const Document& operator[](std::string_view filename) const { return Find_JSON_By_Name(filename); };
 
 
@@ -27,8 +26,8 @@ private:
 
 
 private:
+	static Document Create_JSON_From_String(std::string_view);
 	void Read_Config_And_Parse_Files(const Value& doc);
-	Document Create_JSON_From_String(std::string_view);
 	const Document& Find_JSON_By_Name(std::string_view filename) const;
 };
 

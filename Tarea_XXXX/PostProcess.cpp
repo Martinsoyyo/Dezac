@@ -17,13 +17,13 @@ bool PostProcess::Set_String(std::string_view filename, std::initializer_list<st
 bool PostProcess::Modify_View_In_SubTree(Document& doc, Value& source, const ViewPermission& new_permission, const ViewModifier& modifier)
 {
 	if (source.IsObject()) {
-		if (Json::Determine_Variable_Type(source) != VariableType::NotAVariable)
+		if (Json::Get_Variable_Type(source) != VariableType::NotAVariable)
 			modifier(doc, source, new_permission);
 
 		for (auto& [name, value] : source.GetObject())
 		{
 			auto aux = name.GetString();
-			if (Json::Determine_Variable_Type(value) != VariableType::NotAVariable) {
+			if (Json::Get_Variable_Type(value) != VariableType::NotAVariable) {
 				modifier(doc, value, new_permission);
 			}
 			else if (!value.IsArray()) {
@@ -85,7 +85,7 @@ void PostProcess::Update_Read_Only_Variables_With_Is_Values()
 		std::string_view to, std::initializer_list<std::string_view> valueLocation)
 		{
 			auto str = DATAMANAGER.Get_String(from, typeLocation);
-			auto [type, subtype] = Json::Get_Type_And_Subtype(str);
+			auto [type, subtype] = Json::Extract_Type_And_Subtype(str);
 			Set_String(to, valueLocation, (subtype == "") ? type : subtype);
 		};
 

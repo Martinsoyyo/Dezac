@@ -41,7 +41,7 @@ class PostProcess;
 
 class Json {
 public:
-	Json(const Document& jsonOriginal, std::string_view viewer);
+	Json(Document& jsonOriginal, std::string_view viewer);
 
 	void Import(std::string_view pathXMLfile);
 
@@ -60,32 +60,32 @@ private:
 	friend class DataManager;
 
 	// Checks XML file compatibility for shape and datatype, and create json_ for later. 
-	bool Process_XML(std::string_view fileFromXML);
+	bool Parse_Xml_To_Json(std::string_view fileFromXML);
 
 	// Combine JSON with the new values from Import.
-	void Combine(Value& to, const Value& from, Document::AllocatorType& alloc) const;
+	void Merge_Json(Value& to, const Value& from, Document::AllocatorType& alloc) const;
 
 	//----------------------------------------------------------------------------
 	// STATICS MEMBERS 
 	//----------------------------------------------------------------------------
 
 	// Checks if the values has a correct type/subtype, formats, limits etc...
-	static bool Check_Type_And_Bounds(const Value& original, std::string_view, std::string_view);
+	static bool Validate_Type_And_Bounds(const Value& original, std::string_view, std::string_view);
 
 	// Comprare JSON to check if is the same structure.
-	static bool Is_Valid_JSON(const Value& source, const Value& original);
+	static bool Validate_Json_Structure(const Value& source, const Value& original);
 
 	// "Type::SubType" is in datatype structure ?
 	static bool Is_Valid_Type_And_Subtype(std::string_view type);
 
 	// Unknow Variable -->  { Enum or ReadOnly or Number or NotaVariable }
-	static VariableType Determine_Variable_Type(const Value& node);
+	static VariableType Get_Variable_Type(const Value& node);
 
 	// "Type::SubType" --> {"Type", "SubType"}
-	static std::pair<std::string, std::string> Get_Type_And_Subtype(std::string_view str);
+	static std::pair<std::string, std::string> Extract_Type_And_Subtype(std::string_view str);
 
 	// Recursive Function to reconstruct from XML --> JSON (be aware of shape of this JSON)
-	static void Xml_To_Json(xml_node<>* source, Value& destination, Document::AllocatorType& alloc);
+	static void Convert_Xml_Node_To_Json(xml_node<>* source, Value& destination, Document::AllocatorType& alloc);
 
 	// Get sub-TREE from the original JSON according to the viewer_priority.
 	static bool Filter(
@@ -97,9 +97,8 @@ private:
 		ViewPermission parent);
 
 private:
-	const Document& json_original_;
-
-	Document json_;
-	std::string viewer_priority_;
+	Document& baseJson_;
+	Document processedJson_;
+	std::string viewPermissionLevel_;
 };
 

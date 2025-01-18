@@ -41,6 +41,20 @@
     },
 
 
+    "FileManager": {
+        "LittleFS": {
+            "BlockSize": 256,
+            "BlockCount": 8,
+            "ReadSize": 32,
+            "ProgramSize": 32,
+            "LookAhead": 16,
+            "CacheSize": 64,
+            "BlockCycles": 1000,
+            "InternalFlashBaseAdress": 1234567
+        }
+    },
+
+
     "PostProcess": {
         "Center.json": [
             "Change_Language_For_Export_XML",
@@ -54,24 +68,9 @@
             "Check_Conditions_For_U49P",
             "Check_Conditions_For_U49T"
         ]
-    },
-
-
-    "FileManager": {
-        "LittleFS": {
-            "BlockSize": 4096,
-            "LookAhead": 16,
-            "BlocvkCount": 128,
-            "InternalFlash": { "BaseAdress": 1234567 },
-            "ExternalFlash": { "BaseAdress": 9000000 },
-            "MicroSD": {
-                "SPI": {
-                    "SPI_channel": 1,
-                    "SPI_clock": 12000000
-                }
-            }
-        }
     }
+
+
 
 
 

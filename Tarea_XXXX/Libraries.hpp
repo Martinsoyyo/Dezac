@@ -32,8 +32,13 @@
 #include <rapidjson/writer.h>
 using namespace rapidjson;
 
+//#define RAPIDXML_NO_EXCEPTIONS
 #include <RapidXML/rapidxml.hpp>
 #include <RapidXML/RapidXMLSTD.hpp>
 #include <RapidXML/rapidxml_print.hpp>
 #include <RapidXML/rapidxml_utils.hpp>
 using namespace rapidxml;
+
+#define LFS_TRACE
+#include "LittleFS/lfs.h"
+#include <LittleFS/lfs_util.h>

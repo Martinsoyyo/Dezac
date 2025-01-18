@@ -4,7 +4,7 @@ DataManager::DataManager(std::string_view filename)
 {
 	LOG("Create DataManager::DataManager(...)\n");
 
-	auto str = FileManager::Load(filename);
+	auto str = FILEMANAGER.Load(filename);
 	if (!str.has_value()) {
 		LOG("[ERROR] Error loading JSON file : %s\n", filename.data());
 		return;
@@ -22,14 +22,16 @@ DataManager::DataManager(std::string_view filename)
 		return;
 	}
 
-	if (doc.HasMember("DataManager") && doc["DataManager"].IsObject()) 
-	{
-		Read_Config_And_Parse_Files(doc["DataManager"]);
-
-		// Datatype.json is SPECIAL, we need to pass to <Json class> in Lazy Initialization.
-		const Value& datatype = Find_JSON_By_Name("Datatypes.json");
-		Json::Datatype(datatype);
+	if (!doc.HasMember("DataManager") || !doc["DataManager"].IsObject()) {
+		LOG("[ERROR] DataManager not defined in Config.json\n");
+		return;
 	}
+
+	Read_Config_And_Parse_Files(doc["DataManager"]);
+
+	// Datatype.json is SPECIAL, we need to pass to <Json class> in Lazy Initialization.
+	const Value& datatype = Find_JSON_By_Name("Datatypes.json");
+	Json::Datatype(datatype);
 }
 
 Document DataManager::Create_JSON_From_String(std::string_view str)
@@ -58,7 +60,7 @@ void DataManager::Read_Config_And_Parse_Files(const Value& doc)
 				auto filename = filesArray[i].GetString();
 				LOG("Loading JSON file %s\n", filename);
 
-				auto str = FileManager::Load(filename);
+				auto str = FILEMANAGER.Load(filename);
 				if (!str.has_value()) {
 					LOG("[ERROR] Error loading JSON file : %s\n", filename);
 					return;
@@ -82,8 +84,9 @@ const Document& DataManager::Find_JSON_By_Name(std::string_view filename) const
 		}
 	}
 
+	static Document doc;
 	LOG("[ERROR] Filename %s not found. \n", filename);
-	return Document();
+	return doc;
 }
 
 const Value& DataManager::Get_JSON(std::string_view filename, std::initializer_list<std::string_view> location) const
@@ -116,7 +119,7 @@ const std::string DataManager::Get_String(std::string_view filename, std::initia
 const float DataManager::Get_Value(std::string_view filename, std::initializer_list<std::string_view> location) const
 {
 	const Value& subJSON = Get_JSON(filename, location);
-	if (Json::Determine_Variable_Type(subJSON) != VariableType::Number)
+	if (Json::Get_Variable_Type(subJSON) != VariableType::Number)
 	{
 		LOG("[ERROR] Type mismatch: expected numeric", location);
 		return {};
@@ -124,7 +127,7 @@ const float DataManager::Get_Value(std::string_view filename, std::initializer_l
 
 	auto num = std::stof(subJSON["Value"].GetString());
 
-	auto [type, subtype] = Json::Get_Type_And_Subtype(subJSON["Type"].GetString());
+	auto [type, subtype] = Json::Extract_Type_And_Subtype(subJSON["Type"].GetString());
 	auto scale = (subtype == "") ?
 		Get_JSON("Datatypes.json", { type, "Scale" }).GetFloat() :
 		Get_JSON("Datatypes.json", { type, subtype, "Scale" }).GetFloat();
@@ -156,9 +159,9 @@ void DataManager::Import(std::string_view filename, std::string_view privilege)
 void DataManager::Store(std::string_view filename) const
 {
 	const Document& doc = Find_JSON_By_Name(filename);
-	rapidjson::StringBuffer buffer;
-	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+	StringBuffer buffer;
+	Writer<StringBuffer> writer(buffer);
 	doc.Accept(writer);
 
-	FileManager::SendToMicroSD(filename, buffer.GetString());
+	FILEMANAGER.SendToMicroSD(filename, buffer.GetString());
 }

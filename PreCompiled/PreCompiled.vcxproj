@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0466d10f-813a-4789-9244-240e6721ff20}</ProjectGuid>
-    <RootNamespace>TareaXXXX</RootNamespace>
+    <ProjectGuid>{33882fc1-6215-46b0-b3a5-291b681d97f9}</ProjectGuid>
+    <RootNamespace>PreCompiled</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -88,25 +88,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Tarea_XXXX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\PreCompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
-      <Command>echo Ejecutando PreCompiled...
-
-"$(OutDir)PreCompiled.exe"
-
-
-echo PreCompiled ejecutado correctamente.</Command>
-    </PreBuildEvent>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -116,8 +104,8 @@ echo PreCompiled ejecutado correctamente.</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Tarea_XXXX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\PreCompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,18 +113,6 @@ echo PreCompiled ejecutado correctamente.</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
-      <Command>echo Ejecutando PreCompiled...
-
-"$(OutDir)PreCompiled.exe"
-
-
-echo PreCompiled ejecutado correctamente.</Command>
-    </PreBuildEvent>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -144,25 +120,13 @@ echo PreCompiled ejecutado correctamente.</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Tarea_XXXX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\PreCompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
-      <Command>echo Ejecutando PreCompiled...
-
-"$(OutDir)PreCompiled.exe"
-
-
-echo PreCompiled ejecutado correctamente.</Command>
-    </PreBuildEvent>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -172,8 +136,8 @@ echo PreCompiled ejecutado correctamente.</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\Tarea_XXXX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\mmpel\source\repos\Dezac\PreCompiled;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -181,55 +145,9 @@ echo PreCompiled ejecutado correctamente.</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PreBuildEvent>
-      <Command>echo Ejecutando PreCompiled...
-
-"$(OutDir)PreCompiled.exe"
-
-
-echo PreCompiled ejecutado correctamente.</Command>
-    </PreBuildEvent>
-    <CustomBuildStep>
-      <Command>
-      </Command>
-    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DataManager.cpp" />
-    <ClCompile Include="FileManager.cpp" />
-    <ClCompile Include="Json.cpp" />
-    <ClCompile Include="LittleFS\lfs.c" />
-    <ClCompile Include="LittleFS\lfs_util.c" />
-    <ClCompile Include="Log.cpp" />
-    <ClCompile Include="PostProcess.cpp" />
-    <ClCompile Include="Tarea_XXXX.cpp" />
-    <ClCompile Include="Xml.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Center.json" />
-    <None Include="Datatypes.json" />
-    <None Include="Config.json" />
-    <None Include="LogicalDevices.json" />
-    <None Include="LogicCircuit.json" />
-  </ItemGroup>
-    <ItemGroup>
-    <CustomBuild Include="*.json">
-      <Command>$(OutDir)PreCompiled.exe</Command>
-      <Outputs>AutoGenerated_JSONData.hpp</Outputs>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AutoGenerated_JSONData.hpp" />
-    <ClInclude Include="DataManager.hpp" />
-    <ClInclude Include="FileManager.hpp" />
-    <ClInclude Include="Json.hpp" />
-    <ClInclude Include="Language.hpp" />
-    <ClInclude Include="Libraries.hpp" />
-    <ClInclude Include="LittleFS\lfs.h" />
-    <ClInclude Include="LittleFS\lfs_util.h" />
-    <ClInclude Include="Log.hpp" />
-    <ClInclude Include="PostProcess.hpp" />
-    <ClInclude Include="Xml.hpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

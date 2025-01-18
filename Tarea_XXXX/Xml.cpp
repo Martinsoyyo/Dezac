@@ -201,7 +201,7 @@ const std::string XML::Get_XML()
 void XML::Json_To_Xml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, const std::string& parent)
 {
 	for (const auto& [name, value] : node.GetObject()) {
-		auto variable_type = Json::Determine_Variable_Type(value);
+		auto variable_type = Json::Get_Variable_Type(value);
 		auto strname = name.GetString();
 
 		if (variable_type == VariableType::NotAVariable) {
@@ -214,7 +214,7 @@ void XML::Json_To_Xml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, con
 			Add_Xsd_Node(xsd_, strname, "tReadOnly", strname);
 		}
 		else {
-			auto [type, subtype] = Json::Get_Type_And_Subtype(value["Type"].GetString());
+			auto [type, subtype] = Json::Extract_Type_And_Subtype(value["Type"].GetString());
 
 			const Value& datatype = Json::Datatype();
 			std::string unit = "";
