@@ -1,12 +1,12 @@
-#include "DataManager.hpp"
+//#include "DataManager.hpp"
 #include "FileManager.hpp"
-#include "PostProcess.hpp"
+//#include "PostProcess.hpp"
 #include "Log.hpp"
 
 void APP()
 {
-	const auto& _doc = DATAMANAGER.Get_JSON("Config.json", { "FileManager" });
-	Json::Show(_doc);
+	//const auto& _doc = DATAMANAGER.Get_JSON("Config.json", { "FileManager" });
+	//Json::Show(_doc);
 
 	//// Escribir un archivo
 	//FILEMANAGER.SendToMicroSD("test.txt", "Hello LittleFS!");
@@ -18,6 +18,7 @@ void APP()
 	//{
 	//	std::cout << "Contenido leído: " << data.value() << "\n";
 	//}
+
 
 }
 
