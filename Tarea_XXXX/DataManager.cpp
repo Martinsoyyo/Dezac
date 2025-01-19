@@ -4,7 +4,7 @@ DataManager::DataManager(std::string_view filename)
 {
 	LOG("Create DataManager::DataManager(...)\n");
 
-	auto str = FILEMANAGER.Load(filename);
+	auto str = FILEMANAGER.Read(filename);
 	if (!str.has_value()) {
 		LOG("[ERROR] Error loading JSON file : %s\n", filename.data());
 		return;
@@ -60,7 +60,7 @@ void DataManager::Read_Config_And_Parse_Files(const Value& doc)
 				auto filename = filesArray[i].GetString();
 				LOG("Loading JSON file %s\n", filename);
 
-				auto str = FILEMANAGER.Load(filename);
+				auto str = FILEMANAGER.Read(filename);
 				if (!str.has_value()) {
 					LOG("[ERROR] Error loading JSON file : %s\n", filename);
 					return;

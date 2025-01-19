@@ -15,15 +15,25 @@ void processJsonFiles(const std::string& inputFolder, const std::string& outputF
 		return;
 	}
 
-	// Escribir encabezado
+	// Escribir encabezado del archivo
 	outputFile << "#ifndef JSON_DATA_HPP\n";
 	outputFile << "#define JSON_DATA_HPP\n\n";
+	outputFile << "#include <array>\n";
 	outputFile << "#include <tuple>\n";
-	outputFile << "#include <string>\n\n";
-	outputFile << "constexpr auto json_data = std::make_tuple(\n";
+	outputFile << "#include <string_view>\n\n";
+
+	// Contador de archivos para definir el tamaño del array
+	size_t fileCount = 0;
+	for (const auto& entry : fs::directory_iterator(inputFolder)) {
+		if (entry.is_regular_file() && entry.path().extension() == ".json") {
+			++fileCount;
+		}
+	}
+
+	// Definir el array de tamaño fijo
+	outputFile << "constexpr std::array<std::tuple<std::string_view, std::string_view>, " << fileCount << "> json_data = {\n";
 
 	bool firstEntry = true;
-
 	for (const auto& entry : fs::directory_iterator(inputFolder)) {
 		if (entry.is_regular_file() && entry.path().extension() == ".json") {
 			std::ifstream inputFile(entry.path().string());
@@ -49,7 +59,7 @@ void processJsonFiles(const std::string& inputFolder, const std::string& outputF
 
 			const std::string compactedJson = buffer.GetString();
 
-			// Dividir el JSON en fragmentos de tamaño fijo
+			// Dividir el JSON en fragmentos de tamaño fijo si es necesario
 			constexpr size_t MAX_FRAGMENT_SIZE = 1024;
 			std::vector<std::string> fragments;
 			for (size_t i = 0; i < compactedJson.size(); i += MAX_FRAGMENT_SIZE) {
@@ -72,16 +82,15 @@ void processJsonFiles(const std::string& inputFolder, const std::string& outputF
 				}
 			}
 
-			outputFile << "\n    )";
+			outputFile << ")";
 		}
 	}
 
-	outputFile << "\n);\n";
+	outputFile << "\n};\n";
 	outputFile << "#endif // JSON_DATA_HPP\n";
 
 	std::cout << "Archivo generado: " << outputFilePath << std::endl;
 }
-
 
 int main()
 {
