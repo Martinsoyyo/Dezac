@@ -1,33 +1,13 @@
 #include "DataManager.hpp"
+#include "XML.hpp"
+#include "Json.hpp"
+#include "FileManager.hpp"
+#include "App.hpp"
 
-DataManager::DataManager(std::string_view filename)
+void DataManager::Init(const Value& doc)
 {
-	LOG("Create DataManager::DataManager(...)\n");
-
-	auto str = FILEMANAGER.Read(filename);
-	if (!str.has_value()) {
-		LOG("[ERROR] Error loading JSON file : %s\n", filename.data());
-		return;
-	}
-
-	Document doc = Create_JSON_From_String(str.value().data());
-
-	if (doc.IsNull()) {
-		LOG("[ERROR] Uninitialized Json document.\n");
-		return;
-	}
-
-	if (doc.IsObject() && doc.ObjectEmpty()) {
-		LOG("[ERROR] Json Document is empty.\n");
-		return;
-	}
-
-	if (!doc.HasMember("DataManager") || !doc["DataManager"].IsObject()) {
-		LOG("[ERROR] DataManager not defined in Config.json\n");
-		return;
-	}
-
-	Read_Config_And_Parse_Files(doc["DataManager"]);
+	LOG("DataManager::Init(...)\n");
+	Read_Config_And_Parse_Files(doc);
 
 	// Datatype.json is SPECIAL, we need to pass to <Json class> in Lazy Initialization.
 	const Value& datatype = Find_JSON_By_Name("Datatypes.json");
@@ -40,6 +20,16 @@ Document DataManager::Create_JSON_From_String(std::string_view str)
 	doc.Parse(str.data());
 	if (doc.HasParseError()) {
 		LOG("[ERROR] Semantics Errors in JSON.\n");
+		return {};
+	}
+
+	if (doc.IsNull()) {
+		LOG("[ERROR] Uninitialized Json document.\n");
+		return {};
+	}
+
+	if (doc.IsObject() && doc.ObjectEmpty()) {
+		LOG("[ERROR] Config.json Document is empty.\n");
 		return {};
 	}
 
@@ -60,12 +50,7 @@ void DataManager::Read_Config_And_Parse_Files(const Value& doc)
 				auto filename = filesArray[i].GetString();
 				LOG("Loading JSON file %s\n", filename);
 
-				auto str = FILEMANAGER.Read(filename);
-				if (!str.has_value()) {
-					LOG("[ERROR] Error loading JSON file : %s\n", filename);
-					return;
-				}
-
+				auto str = APP::FILEMANAGER.Read(filename);
 				jsonfiles_.emplace_back(filename, Create_JSON_From_String(str.value().data()));
 			}
 		}
@@ -163,5 +148,5 @@ void DataManager::Store(std::string_view filename) const
 	Writer<StringBuffer> writer(buffer);
 	doc.Accept(writer);
 
-	FILEMANAGER.SendToMicroSD(filename, buffer.GetString());
+	APP::FILEMANAGER.SendToMicroSD(filename, buffer.GetString());
 }

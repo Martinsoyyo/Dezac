@@ -1,7 +1,6 @@
 {
     "DataManager": {
         "Files": [
-            "Config.json",
             "Center.json",
             "Datatypes.json",
             "LogicCircuit.json"

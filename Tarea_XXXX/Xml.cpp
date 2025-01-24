@@ -1,5 +1,7 @@
 #include "XML.hpp"
-
+#include "JSON.hpp"
+#include "Language.hpp"
+#include "DataManager.hpp"
 
 void XML::Show(xml_node<>* node, int depth)
 {
@@ -262,7 +264,7 @@ void XML::Json_To_Xml(const Value& node, xml_node<>* xml_, xml_node<>* xsd_, con
 }
 
 // "5.34" --> 2 | "12.9" --> 1 | "89" --> 0
-size_t CountDecimals(std::string_view str)
+size_t  XML::CountDecimals(std::string_view str)
 {
 	auto pos = str.find('.');
 	return (pos != std::string_view::npos) ? (str.length() - pos - 1) : 0;
@@ -299,8 +301,11 @@ std::string XML::Generate_Short_ID(const std::string& input)
 	std::hash<std::string> hasher;
 	size_t hashValue = hasher(input);
 
-	char buffer[18];
+	char buffer[18] = {};
 	buffer[0] = 'x';
 	snprintf(buffer + 1, sizeof(buffer) - 1, "%X", (uint32_t) hashValue);
+
+	//return  "x" + std::to_string(static_cast<uint32_t>(hashValue));
+
 	return std::string(buffer);
 }

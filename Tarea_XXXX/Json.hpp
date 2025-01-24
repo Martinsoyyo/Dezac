@@ -1,9 +1,7 @@
 #pragma once
 #include "Libraries.hpp"
-
 #include "Log.hpp"
-#include "XML.hpp"
-#include "FileManager.hpp"
+
 
 class ViewPermission {
 public:

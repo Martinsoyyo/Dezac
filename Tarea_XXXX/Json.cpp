@@ -1,5 +1,8 @@
 #include "Json.hpp"
 
+#include "XML.hpp"
+#include "FileManager.hpp"
+#include "App.hpp"
 
 Json::Json(Document& jsonOriginal, std::string_view viewer) :
 	baseJson_(jsonOriginal),
@@ -62,7 +65,7 @@ bool Json::Validate_Json_Structure(const Value& source, const Value& new_json)
 // Checks XML file compatibility for shape and datatype, and create json_ for later.
 bool Json::Parse_Xml_To_Json(std::string_view XMLfile)
 {
-	auto str = FILEMANAGER.Load(XMLfile);
+	auto str = APP::FILEMANAGER.Load(XMLfile);
 	if (!str.has_value()) {
 		LOG("[ERROR] Error loading XML file : %s\n", XMLfile.data());
 		return false;
@@ -181,8 +184,8 @@ void Json::Export(std::string_view AdressXMLfile, std::string_view AdressXSDfile
 
 	XML xml(sub_tree);
 
-	FILEMANAGER.SendToMicroSD(AdressXMLfile, xml.Get_XML());
-	FILEMANAGER.SendToMicroSD(AdressXSDfile, xml.Get_XSD());
+	APP::FILEMANAGER.SendToMicroSD(AdressXMLfile, xml.Get_XML());
+	APP::FILEMANAGER.SendToMicroSD(AdressXSDfile, xml.Get_XSD());
 }
 
 // "Type::SubType" --> {"Type", "SubType"}

@@ -1,9 +1,6 @@
 #pragma once
 #include "Libraries.hpp"
-
-#include "JSON.hpp"
-#include "Language.hpp"
-#include "DataManager.hpp"
+#include "Log.hpp"
 
 class  XML {
 public:
@@ -32,6 +29,8 @@ private:
 	static std::string Adjust_Decimals(std::string_view to, std::string_view from);
 	// {any words of any length} --> {Hexa number of 32bits}
 	static std::string Generate_Short_ID(const std::string& input);
+	// "5.34" --> 2 | "12.9" --> 1 | "89" --> 0
+	static size_t  CountDecimals(std::string_view str);
 
 private:
 	std::vector<std::string> xsdTypesIsPresent_ = {};
