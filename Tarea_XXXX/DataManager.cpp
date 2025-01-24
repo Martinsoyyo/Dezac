@@ -140,13 +140,3 @@ void DataManager::Import(std::string_view filename, std::string_view privilege)
 	Json obj(doc, privilege);
 	obj.Import(fileFromXML);
 }
-
-void DataManager::Store(std::string_view filename) const
-{
-	const Document& doc = Find_JSON_By_Name(filename);
-	StringBuffer buffer;
-	Writer<StringBuffer> writer(buffer);
-	doc.Accept(writer);
-
-	APP::FILEMANAGER.SendToMicroSD(filename, buffer.GetString());
-}

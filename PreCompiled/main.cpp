@@ -8,8 +8,9 @@
 #include <rapidjson/writer.h>
 #include <rapidjson/stringbuffer.h>
 
-namespace fs = std::filesystem;
-void Generate_JSON_Data(const std::string& inputFolder, const std::string& outputFilePath) {
+void Generate_JSON_Data(const std::string& inputFolder, const std::string& outputFilePath)
+{
+	namespace fs = std::filesystem;
 	std::ofstream outputFile(outputFilePath);
 	if (!outputFile.is_open()) {
 		std::cerr << "No se pudo crear el archivo de salida: " << outputFilePath << std::endl;

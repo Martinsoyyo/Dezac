@@ -33,8 +33,26 @@ void APP::Init()
 
 void APP::Run()
 {
-	while (1)
-	{
-		//...
-	}
+	DATAMANAGER.Export("LogicCircuit.json", "*");
+	DATAMANAGER.Export("LogicCircuit.json", "C");
+	DATAMANAGER.Export("LogicCircuit.json", "I");
+	DATAMANAGER.Export("LogicCircuit.json", "U");
+
+	DATAMANAGER.Export("Center.json", "*");
+	DATAMANAGER.Export("Center.json", "O");
+	DATAMANAGER.Export("Center.json", "C");
+	DATAMANAGER.Export("Center.json", "A");
+	DATAMANAGER.Export("Center.json", "I");
+	DATAMANAGER.Export("Center.json", "D");
+	DATAMANAGER.Export("Center.json", "X");
+	DATAMANAGER.Export("Center.json", "L");
+	DATAMANAGER.Export("Center.json", "P");
+	DATAMANAGER.Export("Center.json", "T");
+	DATAMANAGER.Export("Center.json", "R");
+	DATAMANAGER.Export("Center.json", "U");
+
+	//while (1)
+	//{
+	//	//...
+	//}
 }

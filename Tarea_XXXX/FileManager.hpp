@@ -12,8 +12,8 @@ public:
 	void Write(std::string_view fileName, std::string_view jsonContent);
 
 	// TODO: this is a MicroSD function. we have to move there!-----------
-	std::optional<std::string> Load(std::string_view filename);
-	void SendToMicroSD(std::string_view filename, std::string_view data);
+	std::optional<std::string> LoadFromMicroSD(std::string_view filename);
+	void SaveToMicroSD(std::string_view filename, std::string_view data);
 	//--------------------------------------------------------------------
 
 private:

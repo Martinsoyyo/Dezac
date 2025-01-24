@@ -62,10 +62,10 @@ bool Json::Validate_Json_Structure(const Value& source, const Value& new_json)
 	return true;
 }
 
-// Checks XML file compatibility for shape and datatype, and create json_ for later.
+// Checks XML file compatibility for shape and datatype, and create processedJson_ for later.
 bool Json::Parse_Xml_To_Json(std::string_view XMLfile)
 {
-	auto str = APP::FILEMANAGER.Load(XMLfile);
+	auto str = APP::FILEMANAGER.LoadFromMicroSD(XMLfile);
 	if (!str.has_value()) {
 		LOG("[ERROR] Error loading XML file : %s\n", XMLfile.data());
 		return false;
@@ -184,8 +184,8 @@ void Json::Export(std::string_view AdressXMLfile, std::string_view AdressXSDfile
 
 	XML xml(sub_tree);
 
-	APP::FILEMANAGER.SendToMicroSD(AdressXMLfile, xml.Get_XML());
-	APP::FILEMANAGER.SendToMicroSD(AdressXSDfile, xml.Get_XSD());
+	APP::FILEMANAGER.SaveToMicroSD(AdressXMLfile, xml.Get_XML());
+	APP::FILEMANAGER.SaveToMicroSD(AdressXSDfile, xml.Get_XSD());
 }
 
 // "Type::SubType" --> {"Type", "SubType"}
