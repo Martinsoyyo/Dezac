@@ -161,7 +161,7 @@ bool Json::Filter(
 void Json::Import(std::string_view XMLfile)
 {
 	if (Parse_Xml_To_Json(XMLfile) == false) {
-		LOG("[ERROR] Process_XML as errors loading XML file : %s\n", XMLfile.data());
+		LOG("Process_XML as errors loading XML file : %s\n", XMLfile.data());
 		return;
 	}
 
@@ -170,7 +170,7 @@ void Json::Import(std::string_view XMLfile)
 	//Json::Show(sub_tree);
 
 	if (Validate_Json_Structure(processedJson_, sub_tree) == false) {
-		LOG("[ERROR] The XML dont have a valid structure to import, XML file : %s\n", XMLfile.data());
+		LOG("The XML dont have a valid structure to import, XML file : %s\n", XMLfile.data());
 		return;
 	}
 

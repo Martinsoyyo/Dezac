@@ -1,119 +1,143 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Archivos de origen">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Application">
+      <UniqueIdentifier>{cde9a19b-135e-4b57-be30-1abc584b452f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Application\DataManager">
+      <UniqueIdentifier>{cfc2b7be-44ae-4fd9-afb9-70ff82cdd399}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de recursos">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Application\FileManager">
+      <UniqueIdentifier>{e3168629-673a-425e-a102-0f6ecdc5a0e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data">
+    <Filter Include="Application\JSON">
+      <UniqueIdentifier>{4c0a6695-aaf6-41a2-b314-dc3fa1d8ebb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\XML">
+      <UniqueIdentifier>{6b46cf9c-d8ee-4101-8072-075d38fc89b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\PostProcess">
+      <UniqueIdentifier>{cba4a578-26f5-40a2-a95d-3e3c7760e0ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\App">
+      <UniqueIdentifier>{3af986d0-1ff9-470d-b8d2-3358d3a49f5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Logging">
+      <UniqueIdentifier>{5c95773b-4678-4883-b095-107091dc4507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Libraries">
+      <UniqueIdentifier>{10cbc9b0-b842-4bdf-9c59-3e8ec8947d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Language">
+      <UniqueIdentifier>{a92b507b-f922-42c4-9475-f86cd164b787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Data">
       <UniqueIdentifier>{87ec2158-dada-4265-9f26-13a053952de8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\Products">
+    <Filter Include="Application\Data\Products">
       <UniqueIdentifier>{dfd28ff4-2919-4b97-ab68-505d76c0ed13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\Products\PSA-L">
+    <Filter Include="Application\Data\Products\PSA-L">
       <UniqueIdentifier>{0d5e4477-d789-419e-9f29-7ed0029b13a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\Products\PSA-C">
+    <Filter Include="Application\Data\Products\PSA-C">
       <UniqueIdentifier>{d915a731-43ea-4e1f-a592-1299384156ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\Products\CCP-200">
+    <Filter Include="Application\Data\Products\CCP-200">
       <UniqueIdentifier>{d7bfd7a0-a087-4c21-9860-94785a07dd99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{006d59fd-ba5e-422f-a368-3ab76af3307b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources">
-      <UniqueIdentifier>{4d02fbb5-22a0-4d86-a080-4546892f3729}</UniqueIdentifier>
+    <Filter Include="Application\FileManager\LittleFS">
+      <UniqueIdentifier>{c2a5aadb-2a87-4a35-a537-1b1ec0ec123f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Tarea_XXXX.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="DataManager.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Json.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Application\DataManager</Filter>
     </ClCompile>
     <ClCompile Include="Xml.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="FileManager.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Application\XML</Filter>
     </ClCompile>
     <ClCompile Include="PostProcess.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Application\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Application\App</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Application\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Json.cpp">
+      <Filter>Application\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="FileManager.cpp">
+      <Filter>Application\FileManager</Filter>
     </ClCompile>
     <ClCompile Include="Log.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="LittleFS\lfs.c">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Application\Logging</Filter>
     </ClCompile>
     <ClCompile Include="LittleFS\lfs_util.c">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Application\FileManager\LittleFS</Filter>
+    </ClCompile>
+    <ClCompile Include="LittleFS\lfs.c">
+      <Filter>Application\FileManager\LittleFS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Datatypes.json">
-      <Filter>Data\Products\CCP-200</Filter>
+      <Filter>Application\Data\Products\CCP-200</Filter>
     </None>
     <None Include="Center.json">
-      <Filter>Data\Products\CCP-200</Filter>
+      <Filter>Application\Data\Products\CCP-200</Filter>
     </None>
     <None Include="LogicalDevices.json">
-      <Filter>Data\Products\CCP-200</Filter>
+      <Filter>Application\Data\Products\CCP-200</Filter>
     </None>
     <None Include="Config.json">
-      <Filter>Data\Products\CCP-200</Filter>
+      <Filter>Application\Data\Products\CCP-200</Filter>
     </None>
     <None Include="LogicCircuit.json">
-      <Filter>Data\Products\CCP-200</Filter>
+      <Filter>Application\Data\Products\CCP-200</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AutoGenerated_JSONData.hpp">
+      <Filter>Application\DataManager</Filter>
+    </ClInclude>
     <ClInclude Include="DataManager.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Application\DataManager</Filter>
     </ClInclude>
     <ClInclude Include="Xml.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Json.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries.hpp">
-      <Filter>Archivos de origen</Filter>
-    </ClInclude>
-    <ClInclude Include="FileManager.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Application\XML</Filter>
     </ClInclude>
     <ClInclude Include="PostProcess.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Application\PostProcess</Filter>
     </ClInclude>
-    <ClInclude Include="Language.hpp">
-      <Filter>Headers</Filter>
+    <ClInclude Include="Autogenerated_PostProcess.hpp">
+      <Filter>Application\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="App.hpp">
+      <Filter>Application\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Json.hpp">
+      <Filter>Application\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="FileManager.hpp">
+      <Filter>Application\FileManager</Filter>
     </ClInclude>
     <ClInclude Include="Log.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Application\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Language.hpp">
+      <Filter>Application\Language</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries.hpp">
+      <Filter>Application\Libraries</Filter>
     </ClInclude>
     <ClInclude Include="LittleFS\lfs.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Application\FileManager\LittleFS</Filter>
     </ClInclude>
     <ClInclude Include="LittleFS\lfs_util.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="AutoGenerated_JSONData.hpp">
-      <Filter>Headers</Filter>
+      <Filter>Application\FileManager\LittleFS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

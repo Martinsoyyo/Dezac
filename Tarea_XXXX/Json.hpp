@@ -35,8 +35,6 @@ private:
 
 enum class VariableType { Enum, Number, ReadOnly, String, Date, Time, NotAVariable };
 
-class PostProcess;
-
 class Json {
 public:
 	Json(Document& jsonOriginal, std::string_view viewer);
